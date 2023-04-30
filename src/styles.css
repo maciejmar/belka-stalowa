@@ -1,1 +1,31 @@
-/* You can add global styles to this file, and also import other style files */
+table {
+  font-size: 16px;
+}
+
+div.numer {
+  border-bottom:1px solid;
+  text-align:center;
+  font-size: 0.8em;
+}
+
+div.denom {
+  font-size: 0.8em;
+  border-top: 1px solid;
+  text-align: center;
+}
+.form-rounded {
+  border-radius: 3rem;
+  }
+label {
+  margin-top:2rem;
+}
+
+tooltip.round {
+  border-radius:3px;
+  background-color:blueviolet;
+}
+div.flexdiv
+ {
+  display:flex;
+ }
+ 

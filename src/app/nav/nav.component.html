@@ -1,0 +1,97 @@
+
+<div class="container" style="display:flex; align-items:flex-start; column-gap: 8px;margin-top:20px;">
+<ng-container class="card" style="background-color:rgb(236, 236, 135);">
+  <div class="flexdiv">
+      <div class="card" style="width: 20rem;height:36rem;margin-left:3rem;">
+
+
+        <form [formGroup] = "steelForm" (ngSubmit)="onSubmitFormPyForm()">
+          <div class="form-control form-rounded">
+            <!-- Rozpiętość obliczeniowa belki l0  -->
+            <label>
+              <table>
+                <tr><td>Rozpiętość obliczeniowa belki: &nbsp;</td>
+                 <td style="font-weight:700;background-color:rgb(171, 209, 184);">m</td>
+                </tr>
+              </table>
+            </label>
+            <input class="form-control form-rounded" type="text" formControlName="l0">
+
+            <!-- Typ stali steelType -->
+            <label>Typ stali</label>
+              <input class="form-control form-rounded" type="text" formControlName="steelType">
+
+            <!-- Obciążenie obliczeniowe q -->
+            <label>
+              <table>
+              <tr><td> Obciążenie obliczeniowe:  &nbsp;</td>
+                <td  style="font-weight:700;background-color:rgb(171, 209, 184);">
+                  <div class="numer">kN </div>
+                  <div class="denom">m </div>
+                </td>
+              </tr>
+              </table>
+            </label>
+            <input class="form-control form-rounded" type="text" formControlName="q">
+
+            <!-- Siła poprzeczna V  -->
+            <label>Siła poprzeczna </label><span style="font-weight:700;background-color:rgb(171, 209, 184);">kN</span>
+              <input class="form-control form-rounded" type="text" formControlName="V">
+
+            <!-- Obciążenie charakterystyczne qk -->
+              <label>
+              <table >
+                <tr><td> Obciążenie charakterystyczne:  &nbsp;</td>
+                <td style="font-weight:700;background-color:rgb(171, 209, 184);">
+                  <div class="numer"> kN </div>
+                  <div class="denom">m </div>
+                </td>
+                </tr>
+              </table>
+            </label>
+            <input class="form-control form-rounded" type="text" formControlName="qk">
+
+            <!-- Moment zginający M -->
+            <label>Moment zginający </label><span style="font-weight:700;background-color:rgb(171, 209, 184);">m</span>
+              <input class="form-control form-rounded" type="text" formControlName="M">
+
+          <button class="btn btn-primary" style="margin-top:2rem;"
+            data-toggle="tooltip"
+            tooltipClass="round"
+            data-placement="top"
+            title="Tooltip on top"
+          >Oblicz</button>
+          <br>
+          <br>
+          <button (click) = getAllResults()>Get results</button>
+          </div>
+        </form>
+        <h1>{{steel}}</h1>
+      </div>
+      <div   class="card" style="width: 20rem;height:36rem;margin-left:3rem;">
+        <form name="forPy" method="post" >
+            <input type="text" [(ngModel)] = "result.name" name = "name">
+            <input type="text" [(ngModel)]= "result.userName" name = "userName"><br>
+            <button (click) = onSubmitFormPyForm()>submit</button>
+        </form>
+      </div>
+
+      <div class="card card-my">
+        <div class="card-header">
+          Featured
+        </div>
+        Hello World
+      </div>
+  </div>
+</ng-container>
+
+<div class="card" style="display:flex;font-size: 2rem; margin:auto; font-weight: 700px;width: 18rem;">
+    <a routerLink ="/results">
+       results
+    </a>
+</div>
+</div>
+
+
+
+
