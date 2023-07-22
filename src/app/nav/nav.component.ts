@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DataFormService } from '../data-form.service'
 import { Observable } from 'rxjs'
 import { Results } from '../results'
+import { ResultsBeam } from 'src/resultsdata';
 
 
 @Component({
@@ -17,26 +18,37 @@ export class NavComponent implements OnInit {
   name: new FormControl(''),
   userName: new FormControl('')
   })
+  steelForm: FormGroup;
+  typesS=['S235','S275','S335']
 
-  steelForm = new FormGroup ({
-  steelType :  new FormControl(''),
-    l0 : new FormControl (''),
-    q : new FormControl (''),
-    qk : new FormControl (''),
-    M : new FormControl (''),
-    V : new FormControl('')
-  });
 
 
 
      result:Results={'name':'as','userName':'sds'};
      results:Results[]=[];
+     resultsBeam:ResultsBeam = {'l_0':1,'steelType':'stx0', 'q':2,'V':3,'qk':4,'M':5,'Wmin':4,'Imin':3,
+                                'Av':2,'n':2,'Ad':2,'f_cdd':0,'h':2, 't':1, 'Ved':1
+     };
+     resultsBeamArray:ResultsBeam[]=[];
      data:any;
      url='http://localhost:5000/update'
 
     constructor( private http: HttpClient, private dataFromForm: DataFormService) {
-      this.dataFromForm.getResults().subscribe((data)=>{
-        console.log('data in constr ', data)
+      this.steelForm = new FormGroup ({
+        steelType : new FormControl(this.typesS[3]),
+          l_0 : new FormControl ('', Validators.required),
+          q : new FormControl ('', Validators.required),
+          qk : new FormControl ('', Validators.required),
+          M : new FormControl ('', Validators.required),
+          V : new FormControl('', Validators.required),
+          Wmin:new FormControl(''),
+          Imin: new FormControl('')
+        });
+      // this.dataFromForm.getResults().subscribe((data)=>{
+      //   console.log('data in constr ', data)
+      // })
+      this.dataFromForm.getResultsBeam().subscribe((data:any) =>{
+        console.log('dataBeam in constr ', data)
       })
     }
 
@@ -60,6 +72,9 @@ export class NavComponent implements OnInit {
       }
       getAllResults(){
         this.dataFromForm.getResults().subscribe(data =>this.results = data);
+      }
+      getAllResultsBeam(){
+        this.dataFromForm.getResultsBeam().subscribe(data =>this.resultsBeamArray = data);
       }
 
 }

@@ -1,0 +1,13 @@
+<h1>Ścinanie</h1>
+<a routerLink ="/">
+  <br>
+  <button>Go to results again</button>
+</a>
+<form [formGroup]="FormForAv" novalidate (ngSubmit)="passAv()">
+  <label for="name">Podaj wartość Av w [m2]: </label>
+  <input id="Av" type="number" formControlName="Av">
+  <button [disabled]="!FormForAv.valid" type="submit">Zatwierdź</button>
+</form>
+<app-usability *ngIf="isFormSubmited">
+</app-usability>
+

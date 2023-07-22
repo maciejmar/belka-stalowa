@@ -1,0 +1,14 @@
+<h1>Wyznaczanie klasy przekroju</h1>
+<form [formGroup]="FormForHT" (ngSubmit)="passHT()">
+  <label for="name">Podaj wartość h : </label>
+  <input id="h" type="number" formControlName = "h">
+  <br>
+  <label for="name">Podaj wartość t : </label>
+  <input id="t" type="number" formControlName="t">
+  <button [disabled]="!FormForHT.valid" type="submit" >Zatwierdź</button>
+</form>
+<br>
+<a routerLink ="/">
+  <br>
+  <button>Go to results again</button>
+</a>

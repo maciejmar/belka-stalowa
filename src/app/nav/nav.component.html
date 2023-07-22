@@ -5,7 +5,7 @@
       <div class="card" style="width: 20rem;height:36rem;margin-left:3rem;">
 
 
-        <form [formGroup] = "steelForm" (ngSubmit)="onSubmitFormPyForm()">
+        <form [formGroup] = "steelForm" ngSubmit="submitForm()" >
           <div class="form-control form-rounded">
             <!-- Rozpiętość obliczeniowa belki l0  -->
             <label>
@@ -15,11 +15,18 @@
                 </tr>
               </table>
             </label>
-            <input class="form-control form-rounded" type="text" formControlName="l0">
+            <input class="form-control form-rounded" type="number" formControlName="l_0">
 
             <!-- Typ stali steelType -->
-            <label>Typ stali</label>
-              <input class="form-control form-rounded" type="text" formControlName="steelType">
+            <!-- <label>Typ stali</label>
+              <input class="form-control form-rounded" type="text" formControlName="steelType"> -->
+
+              <label>Typ stali</label>
+              <select formControlName="steelType">
+                <option *ngFor="let types of typesS" [ngValue]="types">
+                  {{ types }}
+                </option>
+              </select>
 
             <!-- Obciążenie obliczeniowe q -->
             <label>
@@ -32,11 +39,11 @@
               </tr>
               </table>
             </label>
-            <input class="form-control form-rounded" type="text" formControlName="q">
+            <input class="form-control form-rounded" type="number" formControlName="q">
 
             <!-- Siła poprzeczna V  -->
             <label>Siła poprzeczna </label><span style="font-weight:700;background-color:rgb(171, 209, 184);">kN</span>
-              <input class="form-control form-rounded" type="text" formControlName="V">
+              <input class="form-control form-rounded" type="number" formControlName="V">
 
             <!-- Obciążenie charakterystyczne qk -->
               <label>
@@ -49,13 +56,13 @@
                 </tr>
               </table>
             </label>
-            <input class="form-control form-rounded" type="text" formControlName="qk">
+            <input class="form-control form-rounded" type="number" formControlName="qk">
 
             <!-- Moment zginający M -->
             <label>Moment zginający </label><span style="font-weight:700;background-color:rgb(171, 209, 184);">m</span>
-              <input class="form-control form-rounded" type="text" formControlName="M">
+              <input class="form-control form-rounded" type="number" formControlName="M">
 
-          <button class="btn btn-primary" style="margin-top:2rem;"
+          <button [disabled] = "!this.steelForm.valid" type="submit" class="btn btn-primary" style="margin-top:2rem;"
             data-toggle="tooltip"
             tooltipClass="round"
             data-placement="top"

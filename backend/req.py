@@ -6,73 +6,114 @@ import logging
 import sqlite3
 import json
 import logging
+import math
+import pdb; pdb.set_trace()
 app = Flask(__name__)
 app.config["DEBUG"] = True
 CORS(app)
 
+Wmin = 0
+Imin = 0
+
+# con = sqlite3.connect("belka-stalowa.db", check_same_thread=False);
+# cur = con.cursor();
+
+con_2 = sqlite3.connect("belka-stalowa_7.db", check_same_thread=False);
+cur_2 = con_2.cursor();
 
 
-con = sqlite3.connect("belka-stalowa.db", check_same_thread=False)
-cur = con.cursor()
 
-
-
-def addResult( con,result):
-  print('We are adding result:')
-  #try:
-  for res in result:
-    cur.execute(f'''INSERT INTO results (name,userName) VALUES
-                ( "{res['name']}","{res['userName']}") ''')
-    con.commit()
+# def addResult( con,result):
+#   print('We are adding result:')
+#   #try:
+#   for res in result:
+#     cur.execute(f'''INSERT INTO results (name,userName) VALUES
+#                 ( "{res['name']}","{res['userName']}") ''')
+#     con.commit()
     #except: print('bad case of adding a result')
 
-def showResults(con):
+# def addResultBeam( con_2,result):
+#   print('We are adding result:')
+#   #try:
+#   for res in result:
+#     cur_2.execute(f'''INSERT INTO resultsBeam (l_0,steelType,q,V,qk,M) VALUES ( "{res['l_0']}","{res['steelType']}", "{res['q']}", "{res['V']}", "{res['qk']}", "{res['M']}") ''')
+#     con_2.commit()
+
+# def showResults(con):
+    # print('Here we have')
+    # cur = con.cursor()
+    # cur.execute("SELECT * FROM results")
+    # records = cur.fetchall()
+    # for row in records:
+    #   print(row)
+    # print('---')
+
+def steelParams(data):
+  fy = 0.0
+  fu = 0.0
+  Ee = 0.0
+  qSolvi = 0.0
+  Mbending = 0.0
+  Wmin = 0.0
+  Imin = 0.0
+
+  match data['steelType']:
+    case 'S235':
+        fy = 235
+        fu = 380
+        Ee = 210000
+    case 'S275':
+        fy = 275
+        fu = 430
+        Ee = 210000
+    case 'S335':
+        fy = 335
+        fu = 510
+        Ee = 210000
+    case _:
+        print('Value of Steeltype not recognized')
+
+  qSolvi = data['qk'] + data['q']
+  Mbending  = 0.125 * pow(qSolvi,2)
+  Wmin = (data['M'] * 10^6)/fy
+  Imin = (5/384) * (data['qk'] * pow(data['l_0'],3))/Ee
+  print ('Wmin = ', Wmin, " Imin = ", Imin)
+  return {"Wmin":Wmin, "Imin":Imin}
+
+
+def showResultsBeam(con_2):
     print('Here we have')
-    cur = con.cursor()
-    cur.execute("SELECT * FROM results")
-    records = cur.fetchall()
+    cur_2 = con_2.cursor()
+    con_2.execute("SELECT * FROM resultsBeam")
+    records = cur_2.fetchall()
     for row in records:
       print(row)
     print('---')
 
+#l_0, steelType, q, V, qk, M, Wmin, Imin, Av, n, Ad, f_cdd, h,t
+#l_0, steelType, q, V, qk, M, Wmin, Imin, Av, n, Ad, f_cdd, h,t
 #try:
  # print('We are dropping the table results')
  # cur.execute("DROP TABLE results")
 #except:
  # print('problem with droping table')
-
+#CREATE TABLE IF NOT EXISTS
 try :
-  cur.execute("""CREATE TABLE IF NOT EXISTS results(name TEXT, userName TEXT)""")
-  print('table created')
+  cur_2.execute("""CREATE TABLE resultsBeam(l_0 FLOAT, steelType TEXT, q FLOAT, V FLOAT, qk FLOAT, M FLOAT, Wmin FLOAT, Imin FLOAT, Av FLOAT, n FLOAT, Ad FLOAT, f_cdd FLOAT, h FLOAT,t FLOAT, Ved FLOAT)""")
+  print('table was created')
 except:
   pass
 
 print('now this is the table')
-print(showResults(con))
+logging.debug(showResultsBeam(con_2))
 
-all_results = [ {
 
-               "name": "avs",
-               "userName": "bobo"
-               },
-               {
-                 "name": "bvs",
-                 "userName": "tobo"
-               },
-               {
-                 "name": "Kololo",
-                 "userName": "Bonobo"
-               }
-]
 
-#result['name'] = "pies"
-#result['userName'] = "kot"
-#addResult(con,all_results)
-#cur.execute("INSERT INTO results VALUES('pies','kot')")
-showResults(con)
-#addResult(con,result)
-showResults(con)
-con.commit()
+
+#showResults(con)
+showResultsBeam(con_2)
+#con.commit()
+con_2.commit()
 
 
 all_results = [ {
@@ -89,16 +130,79 @@ all_results = [ {
                  "userName": "Bonobo"
                }
 ]
+
+def calculateAfterWminCorrection():
+  cur_2.execute('SELECT * FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
+  row=cur_2.fetchall()
+  print ("row =", row)
+  cur_2.execute('SELECT q FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
+  row = cur_2.fetchone()
+  q =  row[0]
+  print('q=',q)
+  cur_2.execute('SELECT qk FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
+  row = cur_2.fetchone()
+  qk = row[0]
+  print('qk=',qk)
+
+  cur_2.execute('SELECT l_0 FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
+  row = cur_2.fetchone()
+  l = row[0]
+  #names = row.keys()
+  #print('names ', names)
+
+  print('qk ',qk)
+  qdMax= q + qk
+  print('qdMax ', qdMax)
+  print('l=',l)
+  Med= 0.125*qdMax*l**2
+  Ved_value = 0.5*qdMax*l
+  print('Ved before inserting to db =', Ved_value)
+  try:
+      cur_2.execute("SELECT ROWID FROM resultsBeam ORDER BY ROWID DESC LIMIT 1")
+      row = cur_2.fetchone()
+      print('row for updating Ved', row[0])
+      cur_2.execute("UPDATE resultsBeam SET Ved = ?  WHERE ROWID = ?",(Ved_value,row[0]))
+      con_2.commit()
+  except sqlite3.Error as error:
+      print(f"An error occurred: {error}")
+
+  cur_2.execute('SELECT Ved FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
+  row = cur_2.fetchone()
+  print('Ved direct after inserting = ', row[0])
+
+  fy = 0.0
+  cur_2.execute('SELECT steelType FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
+  row = cur_2.fetchone()
+  stype = row[0]
+  if "235" in stype:
+    fy = 235
+  elif "275" in stype:
+    fy = 275
+  elif "335" in stype:
+    fy = 335
+  print('fy = ',fy)
+  cur_2.execute('SELECT Wmin FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
+  row = cur_2.fetchone()
+  Wmin = row[0]
+  print('wmin ',Wmin)
+  Mrd= Wmin *fy
+  if (Med/Mrd <= 1):
+    print('okay')
+    return 1
+  else:
+    print('not okay')
+    return 0
 
 @app.route('/results', methods = ['GET'])
 def results():
   print('getting results:')
   #print('all_results in route ',all_results)
-  cur=con.cursor()
-  cur.execute("SELECT * FROM results")
-  all_results = cur.fetchall()
-  print('allresults in python get ', all_results)
+  cur_2=con_2.cursor()
+  cur_2.execute("SELECT * FROM resultsBeam")   #results - is a another db with name and userName
+  all_results = cur_2.fetchall()
+  #print('allresults in python get ', all_results)
   return all_results
+
 
 
 @app.route("/update", methods = ['GET','POST'])
@@ -108,24 +212,208 @@ def add():
   #data = json.loads(request.data)
   if request.method == 'POST':
 
-    print('name,',data['name'])
-    print('usermname data ',  data['userName'])
-    #print ('json,',data["name"])
-    #print ('json userName,',data["userName"])
-    cur=con.cursor()
-    cur.execute('INSERT INTO results (name, userName) VALUES (?, ?)',
-                      (data['name'], data['userName']))
-    con.commit()
-    return data
-  else:
-    return redirect(url_for("result", usr=data["name"]))
+    # if data['name']:
+    #   print('name ist anwesend,',data['name'])
+    #   print('usermname data ',  data['userName'])
+    #   cur=con.cursor()
+    #   cur.execute('INSERT INTO results (name, userName) VALUES (?, ?)', (data['name'], data['userName']))
+    #   con.commit()
+    #   return data
+    if data['steelType']:
 
+      cur_2=con_2.cursor()
+      steelParams(data)
+      tupleTemp=steelParams(data)
+      wmin = tupleTemp['Wmin']
+      imin = tupleTemp['Imin']
+      data["Wmin"] = wmin
+      data["Imin"] = imin
+      print("wmin,imin ",wmin,imin)
+      #print(steelParams(data))
+      cur_2.execute('INSERT INTO resultsBeam (l_0, steelType, q, V, qk, M, Wmin, Imin, Av, n, Ad, f_cdd, h,t, Ved ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', (data['l_0'], data['steelType'], data['q'], data['V'], data['qk'], data['M'], data['Wmin'], data['Imin'],0,0,0,0,0,0,0.2))
+      con_2.commit()
+
+      #execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password) )
+      print('data in add() function  is =', data )
+      return data
+
+  else:
+    return redirect(url_for("results", usr=data["l_0"]))
+
+@app.route("/jeden")
+def jeden():
+	return f"<h1>Razu pewnego</h1>"
 
 @app.route("/<usr>")
 def user(usr):
 	return f"<h1>{usr}</h1>"
 
+@app.route('/calculateda_results', methods=['GET'])
+def tupleA():
+  lala = {"Wmin":1.0,"Imin":1.0}
+  cur_2.execute('SELECT Wmin FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')#ORDER BY Wmin DESC LIMIT 1
+  lala['Wmin']=cur_2.fetchone()
+  print("lala Wmin = ", lala['Wmin'])
+  cur_2.execute('SELECT Imin FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
+  lala['Imin']=cur_2.fetchone()
+  return lala
+  #print("lala Imin = ", lala['Imin'])
+  #headers = {'accept': 'application/json'}
+  #toupleTMP=add()
+  #print('toupleTMP = = = ', toupleTMP)
+  #wmin = toupleTMP.Wmin
+  #imin = toupleTMP.Imin
+  #print("THERE ARE Wmin = ",wmin," Imin=", imin)
+  return f"<p>{lala['Wmin']}, {lala['Imin']}</p>" #toupleTMP
 
+@app.route('/calculated_results', methods=['GET','POST'])
+def submitTouple():
+  data = request.json
+  print('data in submitTouple function ', data)
+  if request.method == 'POST':
+    Wmin = data['Wmin']
+    Imin = data['Imin']
+    cur_2.execute("""UPDATE resultsBeam SET Wmin = ?, Imin = ? WHERE ROWID = (SELECT MAX(ROWID) FROM resultsBeam) """, (Wmin,Imin))
+    con_2.commit()
+
+    print('now it ----')
+
+
+    print('hello here submittouple data[wmin],data[imin]',data['Wmin'],data['Imin'])
+    calculateAfterWminCorrection()
+    print('data before return', data)
+  return data
+
+@app.route('/scinanie', methods=['GET','POST'])
+def scinanie():
+  data = request.json # data consists Av - not yet: n, Ad[m_2], f_cdd[kPa]
+
+  if request.method == 'POST':
+    cur_2.execute('SELECT qk FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
+    baseRow=cur_2.fetchone()
+    qk = baseRow[0]
+
+    cur_2.execute('SELECT l_0 FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
+    baseRow=cur_2.fetchone()
+    l = baseRow[0]
+
+    cur_2.execute('SELECT Imin FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
+    baseRow=cur_2.fetchone()
+    Imin = baseRow[0]
+
+    cur_2.execute('SELECT Ved FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
+    baseRow=cur_2.fetchone()
+    print('baserow for Ved', baseRow)
+    Ved = baseRow[0]
+    print ('ved getted from DB - ',Ved)
+    cur_2.execute('SELECT steelType FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
+    baseRow=cur_2.fetchone()
+    stype = baseRow[0]
+
+    if stype == 'S235':
+      fy = 235
+      fu = 380
+    elif stype == 'S275':
+      fy = 275
+      fu = 430
+    elif stype == 'S335':
+      fy = 335
+      fu = 510
+
+    print('data[Av]=', data['Av'])
+    Vrd = data['Av']*(fy/math.sqrt(3))
+    if Ved / Vrd < 1:
+      print('okay')
+
+    #Don't forget to add Av, n, Ad[m_2], f_cdd[kPa] to database!!!
+    #return {'Av':data['Av']}
+    return "0"
+  if request.method == 'GET':
+    return "0"
+
+@app.route('/usability', methods=['GET','POST'])
+def uzytkowalnosc():
+  data =request.json
+  if request.method == 'POST':
+    #sprawdzanie warunku stanu granicznego użytkowalności
+    E = 210000
+    cur_2.execute('SELECT qk FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
+    baseRow=cur_2.fetchone()
+    qk = baseRow[0]
+
+    cur_2.execute('SELECT l_0 FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
+    baseRow=cur_2.fetchone()
+    l = baseRow[0]
+
+    cur_2.execute('SELECT Imin FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
+    baseRow=cur_2.fetchone()
+    Imin = baseRow[0]
+
+    w = (5/384)*(qk*l**4)/(E*Imin)
+    w_lim= l/data['n']
+    if w < w_lim:
+      print ('okay')
+
+    return {}
+
+def checkKey(dic, key):
+    if key in dic.keys():
+        print("Present, ", end =" ")
+        print("value =", dic[key])
+        return 1
+    else:
+        print('there is no ', key, ' in  ', dic)
+        return 0
+
+@app.route ('/support', methods=['GET','POST'])
+def oparcie():
+  if request.method == 'POST':
+    data = request.json
+
+    fy = 0.0
+    cur_2.execute('SELECT steelType FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
+    row = cur_2.fetchone()
+    stype = row[0]
+    if "235" in stype:
+      fy = 235
+    elif "275" in stype:
+      fy = 275
+    elif "335" in stype:
+      fy = 335
+    print('if fy is 0 then is an incorrect value , here fy = ',fy)
+
+    #oparcie belki na wieńcu żelbetowym ściany
+    cur_2.execute('SELECT Ved FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
+    baseRow=cur_2.fetchone()
+    Ved = baseRow[0]
+    print('Ved in support = ', Ved)
+    print('data ',data)
+    if checkKey(data,'Ad') and checkKey(data,'fcdd'):
+      print('Ad and fcdd ', data['Ad'],'- ',data['fcdd'])
+      Vrdd = data['Ad']*data['fcdd']
+      if Ved/Vrdd < 1:
+        print(' ved/vrdd okay')
+      else: print(' ved/vrdd not okay')
+      Epsilon = math.sqrt(215/fy)
+      print('Epsiolon = ',Epsilon)
+      return {}
+    return {}
+  if request.method == 'GET':
+    print('it was get occidentialy')
+    return {}
+@app.route ('/intersection', methods=['GET','POST'])
+def intersect():
+  message ={"correct":"Ścianka profilu jest odporna na miejscową utratę stateczności",
+            "incorrect":"Ścianka profilu nie jest odporna na miejscową utratę stateczności"
+  }
+  if request.method == 'POST':
+    data = request.json
+    Epsilon = 1 #temporary
+    if data['h']/data['t'] <= 70*Epsilon:
+      print(message.correct)
+      return message.correct
+    print(message.incorrect)
+    return message.incorect
 
 @app.route('/detail/<id>', methods=['GET'])
 def detail(id):
@@ -137,7 +425,5 @@ def detail(id):
     return "Record not found", 400
 
 #print(all_results)
-print('----')
-
-showResults(con)
+showResultsBeam(con_2)
 app.run()
