@@ -1,0 +1,20 @@
+.card {
+    width:70%;
+    height:3%;
+}
+.card-blue{
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(121,52,9,1) 50%, rgba(252,0,255,1) 100%);
+    color:rgb(243, 250, 223);
+    margin-left:2%;
+    margin-right: 5%;
+    margin-top:1%;
+    width:80%;
+    font-size:2em;
+}
+.card-title{
+ width:80%;
+ height:5%;
+ margin-left:2%;
+ 
+}

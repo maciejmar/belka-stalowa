@@ -1,15 +1,19 @@
-<h1>Sprawdzenie warunku użytkowalności</h1>
+<div class="form-group form-margin">
+    <h4>Sprawdzenie warunku użytkowalności</h4>
 
-  <form [formGroup]="FormForN"  novalidate >
-    <label>Podaj wartość n:
-      <input formControlName="n" name ="n" type="number">
-    </label>
-    <div *ngIf="FormForN.controls['n'].invalid && ( (FormForN.controls['n'].dirty || FormForN.controls['n'].touched) ||
-         FormForN.controls['n'].pristine)" class="alert">
-      <div *ngIf="FormForN.controls['n'].errors">
-          Name is required.
-      </div>
-    </div>
-    <button type="submit" (click)="passN()">Zatwierdź</button>
-  </form>
+      <form [formGroup]="FormForN"  novalidate  class="form-group">
+        <label>Podaj wartość n:
+          <input formControlName="n" name ="n" id="n" type="number" class="form-control">
+        </label>
+        <div *ngIf="FormForN.controls['n'].invalid && ( (FormForN.controls['n'].dirty || FormForN.controls['n'].touched) ||
+            FormForN.controls['n'].pristine)" class="alert">
+            <span>
+              <div *ngIf="FormForN.controls['n'].errors">
+                  Name is required.
+              </div>
+            </span>
+        </div>
+        <button class= "btn btn-primary" type="submit" (click)="passN()">Zatwierdź</button>
+      </form>
+  </div>
  <app-support *ngIf="isFormPassNSubmitted" ></app-support>

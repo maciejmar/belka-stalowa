@@ -54,13 +54,16 @@ constructor(private http: HttpClient) { }
     return this.http.post<Results>(this.url,result)
   }
   saveAv(Av:any){
+    console.log('Av in saveAv = ', Av)
     const httpHeaders = new HttpHeaders().
       set('Content-Type', 'application/json').
       set('Accept', 'application/json').
       set('Access-Control-Allow-Origin', '*')
     return this.http.post<any>(this.urlAv, Av,{ headers: httpHeaders })
   }
+
   saveN(n:any){
+    console.log('n in saveN =', n)
     const httpHeaders = new HttpHeaders().
       set('Content-Type', 'application/json').
       set('Accept', 'application/json').
@@ -87,7 +90,7 @@ constructor(private http: HttpClient) { }
         'h':h,
         't':t
       }
-    return this.http.post<any>(this.urlAd, dataHT,{ headers: httpHeaders })
+    return this.http.post<any>(this.urlHT, dataHT,{ headers: httpHeaders })
   }
 
 }

@@ -22,8 +22,8 @@
               <input class="form-control form-rounded" type="text" formControlName="steelType"> -->
 
               <label>Typ stali</label>
-              <select formControlName="steelType">
-                <option *ngFor="let types of typesS" [ngValue]="types">
+              <select formControlName="steelType" class="form-select form-rounded">
+                <option *ngFor="let types of typesS" [ngValue]="types" >
                   {{ types }}
                 </option>
               </select>
@@ -67,6 +67,7 @@
             tooltipClass="round"
             data-placement="top"
             title="Tooltip on top"
+            (click) = "this.submitForm()"
           >Oblicz</button>
           <br>
           <br>
@@ -79,7 +80,7 @@
         <form name="forPy" method="post" >
             <input type="text" [(ngModel)] = "result.name" name = "name">
             <input type="text" [(ngModel)]= "result.userName" name = "userName"><br>
-            <button (click) = onSubmitFormPyForm()>submit</button>
+            <button (click) = onSubmitFormPyForm()>submit this</button>
         </form>
       </div>
 

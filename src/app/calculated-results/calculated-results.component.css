@@ -1,0 +1,12 @@
+.form-margin{
+    margin:10%;
+    margin-left:50%;
+    display:flex;
+    flex-direction:column;
+    gap:13%;
+    height:auto;
+}
+.input-box{
+    width:auto;
+    height: 60%;
+}

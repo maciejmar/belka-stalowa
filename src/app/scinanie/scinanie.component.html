@@ -1,13 +1,15 @@
-<h1>Ścinanie</h1>
-<a routerLink ="/">
-  <br>
-  <button>Go to results again</button>
-</a>
-<form [formGroup]="FormForAv" novalidate (ngSubmit)="passAv()">
-  <label for="name">Podaj wartość Av w [m2]: </label>
-  <input id="Av" type="number" formControlName="Av">
-  <button [disabled]="!FormForAv.valid" type="submit">Zatwierdź</button>
-</form>
+<div class="form-group form-margin">
+    <h4>Ścinanie</h4>
+    <a routerLink ="/">
+      <button class="btn btn-primary">Go to results again</button>
+    </a>
+    <form  [formGroup]="FormForAv" novalidate (ngSubmit)="passAv()">
+      <label for="Av" >Podaj wartość Av w [m2]: </label>
+      <input id="Av" type="number" formControlName="Av" class="form-control">
+        <span> <button [disabled]="!FormForAv.valid"  type="submit" class="btn btn-primary button-margin-top">Zatwierdź</button>
+        </span>
+    </form>
+</div>
 <app-usability *ngIf="isFormSubmited">
 </app-usability>
 

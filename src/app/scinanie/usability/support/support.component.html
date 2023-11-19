@@ -1,12 +1,13 @@
-<h1>Oparcie belki na wieńcu żelbetowym</h1>
-<form [formGroup]="FormForSupport" (ngSubmit)="passAd()">
-  <label for="name">Podaj wartość Ad [m2]: </label>
-  <input id="Ad" type="number" formControlName="Ad">
-  <br>
-  <label for="name">Podaj wartość fcdd [kPa]: </label>
-  <input id="fcdd" type="number" formControlName="fcdd" >
-  <button [disabled]="!FormForSupport.valid" type="submit">Zatwierdź</button>
-</form>
+<div class="form-group form-margin">
+    <h4>Oparcie belki na wieńcu żelbetowym</h4>
+    <form [formGroup]="FormForSupport" (ngSubmit)="passAd()" class="form-group">
+      <label for="Ad" >Podaj wartość Ad [m2]: </label>
+      <input id="Ad" type="number" formControlName="Ad" class="form-control">
+      <label for="fcdd" >Podaj wartość fcdd [kPa]: </label>
+      <input id="fcdd" type="number" formControlName="fcdd" class="form-control">
+      <button [disabled]="!FormForSupport.valid" type="submit" class="btn btn-primary">Zatwierdź</button>
+    </form>
+</div>
 <app-intersection *ngIf="supportSubmitted"></app-intersection>
 
 

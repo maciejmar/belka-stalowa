@@ -1,0 +1,9 @@
+
+.form-margin{
+    margin-top:1%;
+    margin-left:2%;
+    margin-right:70%;
+    display:flex;
+    flex-direction:column;
+}
+

@@ -7,9 +7,12 @@ import sqlite3
 import json
 import logging
 import math
-import pdb; pdb.set_trace()
+#import pdb; pdb.set_trace()
+
 app = Flask(__name__)
-app.config["DEBUG"] = True
+
+
+app.config["DEBUG"] = False
 CORS(app)
 
 Wmin = 0
@@ -18,8 +21,8 @@ Imin = 0
 # con = sqlite3.connect("belka-stalowa.db", check_same_thread=False);
 # cur = con.cursor();
 
-con_2 = sqlite3.connect("belka-stalowa_7.db", check_same_thread=False);
-cur_2 = con_2.cursor();
+con_2 = sqlite3.connect("belka-stalowa_7.db", check_same_thread=False)
+cur_2 = con_2.cursor()
 
 
 
@@ -192,6 +195,91 @@ def calculateAfterWminCorrection():
   else:
     print('not okay')
     return 0
+  
+def get_variable_name(var):
+    for name, value in locals().items():
+        if value is var:
+            return name
+
+
+  
+def update_table(columns_to_update):
+    print('Is now ')
+    # Connect to SQLite database
+    #try:
+        # conn = sqlite3.connect(db_path)
+        # cursor = conn.cursor()
+    try:
+        #cur_2.execute("SELECT ROWID FROM resultsBeam ORDER BY ROWID DESC LIMIT 1")
+        
+   
+        # Construct and execute the UPDATE statement using ROWID
+        print('here')
+        print("Type of columns_to_update:", type(columns_to_update))
+        print("Value of columns_to_update:", columns_to_update)
+        set_clause = ', '.join([f"{column} = ?" for column in columns_to_update])
+        update_query = f"""
+        UPDATE resultsBeam
+        SET {set_clause}
+        WHERE ROWID = (
+            SELECT ROWID FROM resultsBeam 
+            ORDER BY ROWID DESC
+            LIMIT 1
+        );
+        """
+        cur_2.execute(update_query, list(columns_to_update.values()))
+
+        # Commit the changes
+        con_2.commit()
+        print("Last row updated successfully.")
+
+        
+          
+    except sqlite3.Error as error:
+        print(f"An error occurred: {error}")
+
+        # Execute the UPDATE statement
+    
+
+def insertToDB(val, valName):
+    column_mapping = {
+        'l_0': 'column1',
+        'steelType': 'column2',
+        'q': 'column3',
+        'V': 'column4',
+        'qk': 'column5',
+        'M': 'column6',
+        'Wmin': 'column7',
+        'Imin': 'column8',
+        'Av': 'column9',
+        'n': 'column10',
+        'Ad': 'column11',
+        'f': 'column12',
+        'h': 'column13',
+        't': 'column14',
+        'Ved': 'column15'
+    }
+
+    if valName not in column_mapping:
+        print(f"Invalid variable name: {valName} ", valName)
+        return
+
+    column_name = column_mapping[valName]
+    print('The variable before inserting to db', valName, '=', val)
+
+    try:
+        cur_2.execute("SELECT ROWID FROM resultsBeam ORDER BY ROWID DESC LIMIT 1")
+        row = cur_2.fetchone()
+        print('row for updating', valName, '=', row[0])
+        update_query = f"UPDATE resultsBeam SET {column_name} = ? WHERE ROWID = ?"
+        cur_2.execute(update_query, (val, row[0]))
+        con_2.commit()
+    except sqlite3.Error as error:
+        print(f"An error occurred: {error}")
+    return
+      
+
+
 
 @app.route('/results', methods = ['GET'])
 def results():
@@ -208,6 +296,8 @@ def results():
 @app.route("/update", methods = ['GET','POST'])
 def add():
   data = request.json
+  print('****************************************************************')
+  print('-------------data on update/', data)
   #data = jsonify(data)
   #data = json.loads(request.data)
   if request.method == 'POST':
@@ -230,6 +320,7 @@ def add():
       data["Imin"] = imin
       print("wmin,imin ",wmin,imin)
       #print(steelParams(data))
+      
       cur_2.execute('INSERT INTO resultsBeam (l_0, steelType, q, V, qk, M, Wmin, Imin, Av, n, Ad, f_cdd, h,t, Ved ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', (data['l_0'], data['steelType'], data['q'], data['V'], data['qk'], data['M'], data['Wmin'], data['Imin'],0,0,0,0,0,0,0.2))
       con_2.commit()
 
@@ -264,7 +355,7 @@ def tupleA():
   #wmin = toupleTMP.Wmin
   #imin = toupleTMP.Imin
   #print("THERE ARE Wmin = ",wmin," Imin=", imin)
-  return f"<p>{lala['Wmin']}, {lala['Imin']}</p>" #toupleTMP
+  #return f"<p>{lala['Wmin']}, {lala['Imin']}</p>" #toupleTMP
 
 @app.route('/calculated_results', methods=['GET','POST'])
 def submitTouple():
@@ -287,8 +378,12 @@ def submitTouple():
 @app.route('/scinanie', methods=['GET','POST'])
 def scinanie():
   data = request.json # data consists Av - not yet: n, Ad[m_2], f_cdd[kPa]
+  
 
   if request.method == 'POST':
+    if 'Av' not in data:
+        return jsonify({'error': 'Missing Av value'}), 400
+      
     cur_2.execute('SELECT qk FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
     baseRow=cur_2.fetchone()
     qk = baseRow[0]
@@ -319,14 +414,44 @@ def scinanie():
     elif stype == 'S335':
       fy = 335
       fu = 510
-
+    print ('fu=',fu)
     print('data[Av]=', data['Av'])
     Vrd = data['Av']*(fy/math.sqrt(3))
     if Ved / Vrd < 1:
       print('okay')
-
-    #Don't forget to add Av, n, Ad[m_2], f_cdd[kPa] to database!!!
+    
+    #Do not forget to add Av, n, Ad[m_2], f_cdd[kPa] to database!!!
     #return {'Av':data['Av']}
+    if data['Av']:
+      Av = data['Av']
+      print('av is correctly passed before call for inserting to db')
+      
+      update_table({'Av':Av})
+    else: print('No ',get_variable_name(Av), ' so inserting in the db not successed' )   
+    
+   
+    
+    
+    
+    # if data['Ad']:
+    #   Ad = data['Ad']
+    #   print('Ad = data[Ad] ', Ad )
+    #   varName = get_variable_name(Ad)
+    #   print('Ad, Adname ' , varName, ' ', Ad )
+    #   insertToDB(Av, varName)
+    # else: print('No ',get_variable_name(data['Ad']),' , so inserting in the db not successed' )    
+  
+    # if data['n']:
+    #   n = data[n]
+    #   varName = get_variable_name(n)
+    #   insertToDB(n, varName)
+    # else: print('No ',get_variable_name(data['n']),' , so inserting in the db not successed' )  
+    
+    # if data['f_cdd']:
+    #   f_cdd = get_variable_name(f_cdd)
+    #   insertToDB(f_cdd, varName)
+    # else: print('No ',get_variable_name(data['f_cdd']),' , so inserting in the db not successed' ) 
+    
     return "0"
   if request.method == 'GET':
     return "0"
@@ -348,6 +473,14 @@ def uzytkowalnosc():
     cur_2.execute('SELECT Imin FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
     baseRow=cur_2.fetchone()
     Imin = baseRow[0]
+    
+    
+    
+    if data['n']:
+      n = data['n']
+      print('ad is correctly passed before call for inserting to db')
+      update_table({'n':n})
+    else: print('No ',get_variable_name(n),' , so inserting in the db not successed' )  
 
     w = (5/384)*(qk*l**4)/(E*Imin)
     w_lim= l/data['n']
@@ -374,6 +507,7 @@ def oparcie():
     cur_2.execute('SELECT steelType FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
     row = cur_2.fetchone()
     stype = row[0]
+  
     if "235" in stype:
       fy = 235
     elif "275" in stype:
@@ -388,19 +522,35 @@ def oparcie():
     Ved = baseRow[0]
     print('Ved in support = ', Ved)
     print('data ',data)
+    
+    if data['Ad']:
+      Ad = data['Ad']
+      print('ad is correctly passed before call for inserting to db')
+      update_table({'Ad':Ad})
+    else: print('No ',get_variable_name(Ad), ' so inserting in the db not successed' )  
+    
+    if data['fcdd']:
+      print('fcdd here is', data )
+      fcdd = data['fcdd']
+      print('fcdd before updata_table is ',fcdd)
+      update_table({'fcdd':fcdd})
+    else: print('No ',get_variable_name(fcdd),' , so inserting in the db not successed' ) 
+    
     if checkKey(data,'Ad') and checkKey(data,'fcdd'):
       print('Ad and fcdd ', data['Ad'],'- ',data['fcdd'])
       Vrdd = data['Ad']*data['fcdd']
       if Ved/Vrdd < 1:
-        print(' ved/vrdd okay')
+        print(' ved/vrdd okay',Vrdd)
       else: print(' ved/vrdd not okay')
       Epsilon = math.sqrt(215/fy)
-      print('Epsiolon = ',Epsilon)
+      print('Epsilon = ',Epsilon)
+      
       return {}
     return {}
   if request.method == 'GET':
     print('it was get occidentialy')
     return {}
+  
 @app.route ('/intersection', methods=['GET','POST'])
 def intersect():
   message ={"correct":"Ścianka profilu jest odporna na miejscową utratę stateczności",
@@ -408,12 +558,24 @@ def intersect():
   }
   if request.method == 'POST':
     data = request.json
+    
+    if data['h']:
+      h = data['h']
+      print('ad is correctly passed before call for inserting to db')
+      update_table({'h':h})
+    else: print('No ',get_variable_name(h), ' so inserting in the db not successed' )  
+    
+    if data['t']:
+      t = data['t']
+      update_table({'t': t})
+    else: print('No ',get_variable_name(t),' , so inserting in the db not successed' ) 
+    
     Epsilon = 1 #temporary
     if data['h']/data['t'] <= 70*Epsilon:
-      print(message.correct)
-      return message.correct
-    print(message.incorrect)
-    return message.incorect
+      print(message['correct'])
+      return message['correct']
+    print(message['incorrect'])
+    return message['incorrect']
 
 @app.route('/detail/<id>', methods=['GET'])
 def detail(id):

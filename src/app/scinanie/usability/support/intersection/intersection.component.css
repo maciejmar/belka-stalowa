@@ -1,0 +1,17 @@
+.form-margin{
+    
+    margin-left:2%;
+    margin-right:70%;
+    display:flex;
+    flex-direction: column;
+  }
+.container{
+
+    display:flex;
+    flex-direction: column;
+}
+.container-1{
+    display:flex;
+    flex-direction: row;
+    justify-items: left;
+}
