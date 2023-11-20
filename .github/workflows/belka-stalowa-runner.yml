@@ -70,7 +70,7 @@ jobs:
         mkdir -p ~/.ssh
         echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
         # Copy frontend and backend to the target server
-        scp -r ./frontend/build $DEPLOY_USER@$DEPLOY_SERVER:$TARGET_DIRECTORY/frontend
-        scp -r ./backend $DEPLOY_USER@$DEPLOY_SERVER:$TARGET_DIRECTORY/backend
+        scp -r ./frontend/build $DEPLOY_USER@$DEPLOY_SERVER:/home/ubuntu/belka-stalowa/frontend
+        scp -r ./backend $DEPLOY_USER@$DEPLOY_SERVER:/home/ubuntu/belka-stalowa/backend
         # Additional server-side commands can go here
 
