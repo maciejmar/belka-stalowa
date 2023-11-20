@@ -1,10 +1,11 @@
 name: Build and Test
-
+  
 on: [push, pull_request]
-
+    
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+    #runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
@@ -57,10 +58,10 @@ jobs:
     - name: Deploy to Server
       if: github.ref == 'refs/heads/master'  # Change to your production branch if different
       env:
-        DEPLOY_SERVER: ${{ secrets.DEPLOY_SERVER }}
-        DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        DEPLOY_SERVER: 
+        DEPLOY_USER: 
         DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
-        TARGET_DIRECTORY: /path/to/target/directory/on/server
+        TARGET_DIRECTORY: 
       run: |
         # Install SSH client
         sudo apt-get update
