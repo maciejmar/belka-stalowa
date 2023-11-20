@@ -55,13 +55,9 @@ jobs:
         # Run your tests here
 
     # Deployment stage starts here
+   
     - name: Deploy to Server
-      if: github.ref == 'refs/heads/master'  # Change to your production branch if different
-      env:
-        DEPLOY_SERVER: 
-        DEPLOY_USER: 
-        DEPLOY_KEY: 
-        TARGET_DIRECTORY: 
+      if: github.ref == 'refs/heads/master'  # Adjust to your production branch
       run: |
         # Install SSH client
         sudo apt-get update
