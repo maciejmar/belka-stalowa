@@ -55,7 +55,7 @@ jobs:
 
     # Deployment stage starts here
     - name: Deploy to Server
-      if: github.ref == 'refs/heads/main'  # Change to your production branch if different
+      if: github.ref == 'refs/heads/master'  # Change to your production branch if different
       env:
         DEPLOY_SERVER: ${{ secrets.DEPLOY_SERVER }}
         DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
