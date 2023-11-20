@@ -52,3 +52,28 @@ jobs:
     - name: Run tests
       run: |
         # Run your tests here
+
+    # Deployment stage starts here
+    - name: Deploy to Server
+      if: github.ref == 'refs/heads/main'  # Change to your production branch if different
+      env:
+        DEPLOY_SERVER: ${{ secrets.DEPLOY_SERVER }}
+        DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+        TARGET_DIRECTORY: /path/to/target/directory/on/server
+      run: |
+        # Install SSH client
+        sudo apt-get update
+        sudo apt-get install -y ssh
+        # Start SSH agent
+        eval "$(ssh-agent -s)"
+        # Add SSH key stored in GitHub Secrets to the agent
+        echo "$DEPLOY_KEY" | tr -d '\r' | ssh-add -
+        # Disable host key checking (be aware of security implications)
+        mkdir -p ~/.ssh
+        echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+        # Copy frontend and backend to the target server
+        scp -r ./frontend/build $DEPLOY_USER@$DEPLOY_SERVER:$TARGET_DIRECTORY/frontend
+        scp -r ./backend $DEPLOY_USER@$DEPLOY_SERVER:$TARGET_DIRECTORY/backend
+        # Additional server-side commands can go here
+
