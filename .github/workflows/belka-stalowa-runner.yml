@@ -60,7 +60,7 @@ jobs:
       env:
         DEPLOY_SERVER: 
         DEPLOY_USER: 
-        DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+        DEPLOY_KEY: 
         TARGET_DIRECTORY: 
       run: |
         # Install SSH client
