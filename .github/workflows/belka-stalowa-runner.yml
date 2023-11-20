@@ -55,7 +55,6 @@ jobs:
         # Run your tests here
 
     # Deployment stage starts here
-   
     - name: Deploy to Server
       if: github.ref == 'refs/heads/master'  # Adjust to your production branch
       run: |
