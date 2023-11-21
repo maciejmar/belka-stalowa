@@ -1,12 +1,10 @@
 name: Build and Test
-  
+
 on: [push, pull_request]
-    
+
 jobs:
   build-and-test:
-    
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -17,13 +15,10 @@ jobs:
         node-version: 16
 
     - name: Install Angular dependencies
-      run: |
-        npm ci
+      run: npm ci
 
     - name: Build Angular app
-      run: |
-        
-        npm run build
+      run: npm run build
 
     - name: Setup Python
       uses: actions/setup-python@v2
@@ -37,9 +32,7 @@ jobs:
         pip install -r ./requirements.txt
 
     - name: Start Angular server
-      run: |
-       
-        npm start &
+      run: npm start &
       env:
         CI: true
 
@@ -54,28 +47,18 @@ jobs:
       run: |
         # Run your tests here
 
-    # Deployment stage starts here
-
-
     - name: Deploy to Server
       if: github.ref == 'refs/heads/master'  # Adjust to your production branch
       env:
         SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}  # Ensure this matches your GitHub secret's name
       run: |
-        # Saving SSH key
-        echo "$SSH_PRIVATE_KEY" > private.key
+        echo "$SSH_PRIVATE_KEY" | base64 --decode > private.key
         sudo chmod 400 private.key
-        # Install SSH client
         sudo apt-get update
         sudo apt-get install -y ssh
-        # Start SSH agent
         eval "$(ssh-agent -s)"
-        # Add SSH key stored in GitHub Secrets to the agent
         ssh-add private.key
-        # Disable host key checking (be aware of security implications)
         mkdir -p ~/.ssh
         echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-        # Copy frontend and backend to the target server
         scp -r ./frontend/build $DEPLOY_USER@$DEPLOY_SERVER:/home/ubuntu/belka-stalowa/frontend
         scp -r ./backend $DEPLOY_USER@$DEPLOY_SERVER:/home/ubuntu/belka-stalowa/backend
-
