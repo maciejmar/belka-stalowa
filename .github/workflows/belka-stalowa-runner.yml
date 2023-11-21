@@ -50,6 +50,8 @@ jobs:
       if: github.ref == 'refs/heads/master'  # Adjust to your production branch
       env:
         SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}  # Ensure this matches your GitHub secret's name
+        DEPLOY_SERVER: vps-9f62e310.vps.ovh.net
+        DEPLOY_USER: ubuntu
       run: |
       
         echo "$SSH_PRIVATE_KEY"  > private.key
