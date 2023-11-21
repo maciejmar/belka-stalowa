@@ -52,7 +52,7 @@ jobs:
         SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}  # Ensure this matches your GitHub secret's name
       run: |
       
-        echo "$SSH_PRIVATE_KEY" | base64 --decode > private.key
+        echo "$SSH_PRIVATE_KEY"  > private.key
         echo "Checking the length of the SSH_PRIVATE_KEY"
         echo "$SSH_PRIVATE_KEY" | wc -c
         sudo chmod 400 private.key
