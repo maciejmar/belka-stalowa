@@ -59,19 +59,23 @@ jobs:
 
     - name: Deploy to Server
       if: github.ref == 'refs/heads/master'  # Adjust to your production branch
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}  # Ensure this matches your GitHub secret's name
       run: |
+        # Saving SSH key
+        echo "$SSH_PRIVATE_KEY" > private.key
+        sudo chmod 400 private.key
         # Install SSH client
         sudo apt-get update
         sudo apt-get install -y ssh
         # Start SSH agent
         eval "$(ssh-agent -s)"
         # Add SSH key stored in GitHub Secrets to the agent
-        echo "$DEPLOY_KEY" | tr -d '\r' | ssh-add -
+        ssh-add private.key
         # Disable host key checking (be aware of security implications)
         mkdir -p ~/.ssh
         echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
         # Copy frontend and backend to the target server
         scp -r ./frontend/build $DEPLOY_USER@$DEPLOY_SERVER:/home/ubuntu/belka-stalowa/frontend
         scp -r ./backend $DEPLOY_USER@$DEPLOY_SERVER:/home/ubuntu/belka-stalowa/backend
-        # Additional server-side commands can go here
 
