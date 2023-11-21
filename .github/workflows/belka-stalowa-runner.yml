@@ -69,5 +69,5 @@ jobs:
         echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     
         # Deployment - Update the paths if your build directory is different
-        scp -r ./frontend/ ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }}:/home/ubuntu/belka-stalowa/frontend
+        scp -r ./frontend/ ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }}:/home/ubuntu/belka-stalowa/
         scp -r ./backend ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }}:/home/ubuntu/belka-stalowa/backend
