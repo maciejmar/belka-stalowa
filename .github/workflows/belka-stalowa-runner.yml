@@ -54,7 +54,7 @@ jobs:
         DEPLOY_USER: ubuntu
       run: |
       
-        ls -l ./frontend/build
+        ls -l ./frontend/
         echo "$SSH_PRIVATE_KEY"  > private.key
         echo "Checking the length of the SSH_PRIVATE_KEY"
         echo "$SSH_PRIVATE_KEY" | wc -c
