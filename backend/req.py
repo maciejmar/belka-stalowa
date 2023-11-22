@@ -375,7 +375,6 @@ def submitTouple():
 @app.route('/scinanie', methods=['GET','POST'])
 def scinanie():
   data = request.json # data consists Av - not yet: n, Ad[m_2], f_cdd[kPa]
-  
 
   if request.method == 'POST':
     if 'Av' not in data:
