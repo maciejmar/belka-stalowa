@@ -366,10 +366,7 @@ def submitTouple():
     Imin = data['Imin']
     cur_2.execute("""UPDATE resultsBeam SET Wmin = ?, Imin = ? WHERE ROWID = (SELECT MAX(ROWID) FROM resultsBeam) """, (Wmin,Imin))
     con_2.commit()
-
     print('now it ----')
-
-
     print('hello here submittouple data[wmin],data[imin]',data['Wmin'],data['Imin'])
     calculateAfterWminCorrection()
     print('data before return', data)
