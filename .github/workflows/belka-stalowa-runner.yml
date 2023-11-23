@@ -76,9 +76,11 @@ jobs:
       run: |
        ssh ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }} << 'EOF'
        # Restart the Angular app
-       cd /path/to/angular/build
+       cd src
        pm2 restart "angular-app"
        # Restart the Flask app
-       cd /path/to/flask/app
+       cd backend
        pm2 restart "belka-stalowa-backend"
        EOF
+
+       
