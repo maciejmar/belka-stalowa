@@ -68,15 +68,15 @@ jobs:
         DEPLOY_SERVER: vps-9f62e310.vps.ovh.net
         DEPLOY_USER: ubuntu
       run: |
-       - name: Upload dist as an artifact
+
          uses: actions/upload-artifact@v2
          with:
             name: dist
             path: dist/
-        # Debugging - List the contents of the build directory
+    - name: Debugging - List the contents of the build directory
+      run: |
         pwd 
         ls -l ./ 
-    
         # Setup SSH Key
         echo "$SSH_PRIVATE_KEY"  > private.key
         sudo chmod 600 private.key
@@ -87,7 +87,8 @@ jobs:
         mkdir -p ~/.ssh
         echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     
-        # Deployment 
+    - name: Deployment
+      run: |
         pwd
         scp -r dist/ ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }}:/home/ubuntu/belka-stalowa/
         scp -r ./backend ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }}:/home/ubuntu/belka-stalowa
