@@ -60,7 +60,7 @@ jobs:
         DEPLOY_USER: ubuntu
       run: |
         # Debugging - List the contents of the build directory
-        # ls -lR ./frontend/  # Update this if your build output directory is different
+        # ls -l ./ # Update this if your build output directory is different
     
         # Setup SSH Key
         echo "$SSH_PRIVATE_KEY"  > private.key
