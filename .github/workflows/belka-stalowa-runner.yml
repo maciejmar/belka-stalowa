@@ -48,6 +48,9 @@ jobs:
         # Run your tests here
     - name: Checkout repository
       uses: actions/checkout@v2
+
+    - name: List directory after build
+      run: ls -l
     - name: Deploy to Server
       if: github.ref == 'refs/heads/master'  # Adjust to your production branch
       env:
