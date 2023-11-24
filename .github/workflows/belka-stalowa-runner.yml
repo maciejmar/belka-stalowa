@@ -62,7 +62,7 @@ jobs:
         DEPLOY_USER: ubuntu
       run: |
         # Debugging - List the contents of the build directory
-        # ls -l ./ # Update this if your build output directory is different
+        pwd & ls -l ./ 
     
         # Setup SSH Key
         echo "$SSH_PRIVATE_KEY"  > private.key
