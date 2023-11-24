@@ -23,7 +23,7 @@ jobs:
     - name: List directory after build
       run: ls -lR
     - name: List dist folder
-      run: ls -l dist/
+      run: ls -lR dist/
 
     - name: Setup Python
       uses: actions/setup-python@v2
