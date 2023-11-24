@@ -1,0 +1,79 @@
+name: Build and Test
+
+on: [push, pull_request]
+
+jobs:
+  build-and-test:
+    runs-on: self-hosted # This targets your self-hosted runner
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16
+
+    - name: Install Angular dependencies
+      run: npm ci
+
+    - name: Build Angular app
+      run: npm run build
+    
+    - name: List directory after build
+      run: ls -lR dist/
+
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+
+    - name: Install Python dependencies
+      run: |
+        cd backend
+        python -m pip install --upgrade pip
+        pip install -r ./requirements.txt
+
+    - name: Start Angular server
+      run: npm start &
+      env:
+        CI: true
+
+    - name: Start Python server
+      run: |
+        cd backend
+        python manage.py runserver &
+      env:
+        CI: true
+    
+    - name: Run tests
+      run: |
+        # Add commands to run your tests here
+
+    - name: Deploy to Server
+      if: github.ref == 'refs/heads/master'
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
+        DEPLOY_SERVER: vps-9f62e310.vps.ovh.net
+        DEPLOY_USER: ubuntu
+      run: |
+        # Setup SSH Key
+        echo "$SSH_PRIVATE_KEY" > private.key
+        chmod 600 private.key
+        ssh-add private.key
+
+        # Copy files to the server
+        scp -r dist/ ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }}:/home/ubuntu/belka-stalowa/
+        scp -r ./backend ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }}:/home/ubuntu/belka-stalowa
+
+    - name: Restart Applications with PM2
+      run: |
+        ssh ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }} << 'EOF'
+        # Restart the Angular app
+        cd /home/ubuntu/belka-stalowa/
+        pm2 restart "angular-app"
+
+        # Restart the Flask app
+        cd /home/ubuntu/belka-stalowa/backend
+        pm2 restart "belka-stalowa-backend"
+        EOF
