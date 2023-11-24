@@ -29,8 +29,8 @@ jobs:
     - name: Upload dist as an artifact
       uses: actions/upload-artifact@v2
       with:
-       name: dist
-       path: dist/
+        name: dist
+        path: dist/
 
     - name: Setup Python
       uses: actions/setup-python@v2
