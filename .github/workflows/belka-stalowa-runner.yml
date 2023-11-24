@@ -26,11 +26,11 @@ jobs:
     - name: List dist folder
       run: ls -lR dist/
     
-  #  - name: Upload dist as an artifact
- #     uses: actions/upload-artifact@v2
-  #    with:
-   #     name: dist
-    #    path: dist/
+    - name: Upload dist as an artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: dist
+        path: dist/
 
     - name: Setup Python
       uses: actions/setup-python@v2
@@ -67,12 +67,11 @@ jobs:
         SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}  # Ensure this matches your GitHub secret's name
         DEPLOY_SERVER: vps-9f62e310.vps.ovh.net
         DEPLOY_USER: ubuntu
-      run: |
-
-       uses: actions/upload-artifact@v2
-       with:
-            name: dist
-            path: dist/
+    
+      uses: actions/upload-artifact@v2
+      with:
+        name: dist
+        path: dist/
     - name: Debugging - List the contents of the build directory
       run: |
         pwd 
