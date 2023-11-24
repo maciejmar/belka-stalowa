@@ -23,6 +23,7 @@ jobs:
     - name: List directory after build
       run: pwd 
            ls -lR
+           
     - name: List dist folder
       run: ls -lR dist/
     
