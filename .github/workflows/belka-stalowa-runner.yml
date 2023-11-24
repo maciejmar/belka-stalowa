@@ -68,10 +68,10 @@ jobs:
         DEPLOY_SERVER: vps-9f62e310.vps.ovh.net
         DEPLOY_USER: ubuntu
       run: |
-        # First, download the artifact
-        uses: actions/download-artifact@v2
-          with:
-            name: dist
+       # First, download the artifact
+       - uses: actions/download-artifact@v2
+            with:
+              name: dist
         # Debugging - List the contents of the build directory
         pwd 
         ls -l ./ 
