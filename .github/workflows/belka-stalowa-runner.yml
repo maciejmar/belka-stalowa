@@ -69,8 +69,8 @@ jobs:
         DEPLOY_USER: ubuntu
       run: |
 
-         uses: actions/upload-artifact@v2
-         with:
+       uses: actions/upload-artifact@v2
+       with:
             name: dist
             path: dist/
     - name: Debugging - List the contents of the build directory
