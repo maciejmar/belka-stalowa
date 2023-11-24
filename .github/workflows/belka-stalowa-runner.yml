@@ -68,9 +68,9 @@ jobs:
         mkdir -p ~/.ssh
         echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     
-        # Deployment - Update the paths if your build directory is different
-        scp -r $(pwd) ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }}:/home/ubuntu/
-        scp -r ./backend ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }}:/home/ubuntu/
+        # Deployment 
+        scp -r $(pwd) ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }}:/home/ubuntu/belka-stalowa
+        scp -r ./backend ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }}:/home/ubuntu/belka-stalowa
 
     - name: Restart Applications with PM2
       run: |
