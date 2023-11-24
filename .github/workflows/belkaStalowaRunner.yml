@@ -19,7 +19,6 @@ jobs:
 
     - name: Build Angular app
       run: npm run build
-    
     - name: List directory after build
       run: ls -lR dist/
 
