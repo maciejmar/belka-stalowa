@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   build-and-test:
-    #runs-on: ubuntu-latest
+    #runs-on: belkaStalowaRunner
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -23,7 +23,7 @@ jobs:
     - name: List directory after build
       run: pwd 
            ls -lR
-           
+
     - name: List dist folder
       run: ls -lR dist/
     
