@@ -21,7 +21,7 @@ jobs:
       run: npm run build
     
     - name: List directory after build
-      run: ls -l
+      run: ls -lR
 
     - name: Setup Python
       uses: actions/setup-python@v2
@@ -60,7 +60,7 @@ jobs:
         DEPLOY_USER: ubuntu
       run: |
         # Debugging - List the contents of the build directory
-        # ls -l ./frontend/  # Update this if your build output directory is different
+        # ls -lR ./frontend/  # Update this if your build output directory is different
     
         # Setup SSH Key
         echo "$SSH_PRIVATE_KEY"  > private.key
@@ -73,7 +73,7 @@ jobs:
         echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     
         # Deployment 
-        scp -r dist/ ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }}:/home/ubuntu/belka-stalowa/
+        scp -r dist/belka-stalowa ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }}:/home/ubuntu/belka-stalowa/
         scp -r ./backend ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }}:/home/ubuntu/belka-stalowa
         
 
