@@ -69,11 +69,12 @@ jobs:
         DEPLOY_USER: ubuntu
       run: |
         # First, download the artifact
-        - uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v2
           with:
             name: dist
         # Debugging - List the contents of the build directory
-        pwd & ls -l ./ 
+        pwd 
+        ls -l ./ 
     
         # Setup SSH Key
         echo "$SSH_PRIVATE_KEY"  > private.key
