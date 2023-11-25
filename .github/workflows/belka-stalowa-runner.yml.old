@@ -1,6 +1,7 @@
 name: BelkaStalowaRunner
 
 on: [push, pull_request]
+
 jobs:
   belka-stalowa jobs:
     runs-on: self-hosted
