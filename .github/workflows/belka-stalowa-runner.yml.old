@@ -1,4 +1,4 @@
-name: belkaStalowaRunner
+name: BelkaStalowaRunner
 
 on: [push, pull_request]
 
