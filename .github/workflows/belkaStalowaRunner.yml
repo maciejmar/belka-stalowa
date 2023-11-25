@@ -55,10 +55,14 @@ jobs:
         DEPLOY_SERVER: vps-9f62e310.vps.ovh.net
         DEPLOY_USER: ubuntu
       run: |
+        # Start the SSH agent
+        eval "$(ssh-agent -s)"
+        # Add the SSH key stored in GitHub secrets to the agent
+        echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
         # Setup SSH Key
-        echo "$SSH_PRIVATE_KEY" > private.key
-        chmod 600 private.key
-        ssh-add private.key
+        #echo "$SSH_PRIVATE_KEY" > private.key
+        #chmod 600 private.key
+        #ssh-add private.key
 
         # Copy files to the server
         scp -r dist/ ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }}:/home/ubuntu/belka-stalowa/
