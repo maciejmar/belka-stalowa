@@ -63,6 +63,8 @@ jobs:
         #echo "$SSH_PRIVATE_KEY" > private.key
         #chmod 600 private.key
         #ssh-add private.key
+        # Bypass host key checking
+        ssh-keyscan -H ${{ env.DEPLOY_SERVER }} >> ~/.ssh/known_hosts
 
         # Copy files to the server
         scp -r dist/ ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }}:/home/ubuntu/belka-stalowa/
