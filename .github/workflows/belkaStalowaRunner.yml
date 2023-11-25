@@ -72,11 +72,15 @@ jobs:
 
     - name: Restart Applications with PM2
       run: |
-        ssh ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }} << 'EOF'
-        # Restart the Angular app
-        cd /home/ubuntu/belka-stalowa/
-        pm2 restart "angular-app"
-        # Restart the Flask app
-        cd /home/ubuntu/belka-stalowa/backend
-        pm2 restart "belka-stalowa-backend"
-        EOF
+       ssh ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }} << 'EOF'
+       # Restart the Angular app
+       cd /home/ubuntu/belka-stalowa/
+       pm2 restart "angular-app"
+      
+       # Restart the Flask app
+       cd /home/ubuntu/belka-stalowa/backend
+       pm2 restart "belka-stalowa-backend"
+       EOF
+      env:
+       DEPLOY_SERVER: vps-9f62e310.vps.ovh.net
+       DEPLOY_USER: ubuntu
