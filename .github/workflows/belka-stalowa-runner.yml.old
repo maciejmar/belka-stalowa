@@ -2,7 +2,7 @@ name: BelkaStalowaRunner
 
 on: [push, pull_request]
 jobs:
-  build-and-test:
+  belka-stalowa jobs:
     runs-on: self-hosted
     steps:
     - name: Checkout repository
