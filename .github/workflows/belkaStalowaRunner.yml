@@ -83,7 +83,7 @@ jobs:
    
        # Start the Angular app using PM2
        pm2 start http-server -- -p 4200 -d false --path ./dist/belka-stalowa
-   
+       pm2 status 
        # Save the PM2 process list
        pm2 save 
 
