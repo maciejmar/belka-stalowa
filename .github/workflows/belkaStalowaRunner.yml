@@ -75,7 +75,8 @@ jobs:
        #ssh ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }} << 'EOF'
        # Restart the Angular app
        cd /home/ubuntu/belka-stalowa/
-       pm2 restart "angular-app"
+       #pm2 restart "angular-app"
+       pm2 start "http-server -p 4200" --name "angular-app"
       
        # Restart the Flask app
        cd /home/ubuntu/belka-stalowa/backend
