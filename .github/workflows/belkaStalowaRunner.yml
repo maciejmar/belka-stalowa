@@ -77,10 +77,12 @@ jobs:
        cd /home/ubuntu/belka-stalowa/
        #pm2 restart "angular-app"
        pm2 start "http-server -p 4200" --name "angular-app"
-      
+       pm2 save 
+       
        # Restart the Flask app
        cd /home/ubuntu/belka-stalowa/backend
        pm2 restart "belka-stalowa-backend"
+       pm2 save
       # EOF
       env:
        DEPLOY_SERVER: vps-9f62e310.vps.ovh.net
