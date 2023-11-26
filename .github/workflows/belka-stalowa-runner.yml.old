@@ -52,7 +52,7 @@ jobs:
     - name: Start Python server
       run: |
         cd backend
-        python manage.py runserver &
+        nohup python app.py > flask.log 2>&1 &
       env:
         CI: true
     
