@@ -76,9 +76,17 @@ jobs:
        # Restart the Angular app
        cd /home/ubuntu/belka-stalowa/
        #pm2 restart "angular-app"
-       pm2 start "http-server -p 4200" --name "angular-app"
+       #pm2 start "http-server -p 4200" --name "angular-app"
+       #pm2 save
+       # If there's an existing PM2 process for the app, stop it
+       pm2 stop angular-app || true
+   
+       # Start the Angular app using PM2
+       pm2 start http-server -- -p 4200 -d false --path ./dist/belka-stalowa
+   
+       # Save the PM2 process list
        pm2 save 
-       
+
        # Restart the Flask app
        cd /home/ubuntu/belka-stalowa/backend
        pm2 restart "belka-stalowa-backend"
