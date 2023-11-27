@@ -40,7 +40,7 @@ jobs:
     - name: Start Python server
       run: |
         cd backend
-        nohup python app.py > flask.log 2>&1 &
+        nohup python req.py > flask.log 2>&1 &
       env:
         CI: true
     
