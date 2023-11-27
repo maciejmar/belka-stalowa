@@ -38,9 +38,13 @@ jobs:
       env:
         CI: true
     - name: Start Python server
+  
       run: |
         cd backend
-        nohup python req.py > flask.log 2>&1 &
+        python -m venv venv
+        source venv/bin/activate
+        export FLASK_APP=req.py
+        flask run &
       env:
         CI: true
     
@@ -88,7 +92,7 @@ jobs:
 
        # Restart the Flask app
        cd /home/ubuntu/belka-stalowa/backend
-       pm2 restart "belka-stalowa-backend"
+       pm2 restart belka-stalowa-backend || pm2 start python req.py
        pm2 save
       # EOF
       env:
