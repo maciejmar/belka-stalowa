@@ -41,10 +41,9 @@ jobs:
   
       run: |
         cd backend
-        python -m venv venv
-        source venv/bin/activate
-        export FLASK_APP=req.py
-        flask run &
+        ./Scirpts/activate
+        export FLASK_APP=req
+        flask run
       env:
         CI: true
     
