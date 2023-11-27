@@ -40,11 +40,8 @@ jobs:
     - name: Start Python server
   
       run: |
-        cd backend
-        python -m venv venv
-        source venv/bin/activate
-        export FLASK_APP=req
-        flask run
+         cd backend
+         nohup python app.py > flask.log 2>&1 &
       env:
         CI: true
     
