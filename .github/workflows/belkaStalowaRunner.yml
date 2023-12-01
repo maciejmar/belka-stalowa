@@ -100,7 +100,7 @@ jobs:
        export FLASK_APP=req
        pm2 restart belka-stalowa-backend || pm2 start python -m flask run
        pm2 save
-       EOF
+       
       env:
        DEPLOY_SERVER: vps-9f62e310.vps.ovh.net
        DEPLOY_USER: ubuntu
