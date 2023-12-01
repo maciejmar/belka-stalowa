@@ -87,6 +87,7 @@ jobs:
        # Save the PM2 process list
        pm2 save 
        # Restart the Flask app
+       chmod +x /home/ubuntu/belka-stalowa/backend/venv/bin/activate
        cd /home/ubuntu/belka-stalowa/backend
        ./venv/bin/activate
        export FLASK_APP=req
