@@ -86,7 +86,6 @@ jobs:
        pm2 start http-server -- -p 4201 -d false --path ./dist/belka-stalowa
        # Save the PM2 process list
        pm2 save 
-
        # Restart the Flask app
        cd /home/ubuntu/belka-stalowa/backend
        ./venv/bin/activate
