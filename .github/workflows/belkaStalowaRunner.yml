@@ -88,13 +88,19 @@ jobs:
        pm2 save 
        # Restart the Flask app
        chmod +x /home/ubuntu/belka-stalowa/backend/venv/bin/activate
+       # cd /home/ubuntu/belka-stalowa/backend
+       # ./venv/bin/activate
+       # export FLASK_APP=req
+       # flask run
+       # pm2 restart belka-stalowa-backend || pm2 start python req.py
+       #pm2 save
+       # EOF
        cd /home/ubuntu/belka-stalowa/backend
-       ./venv/bin/activate
+       source ./venv/bin/activate
        export FLASK_APP=req
-       flask run
-       pm2 restart belka-stalowa-backend || pm2 start python req.py
+       pm2 restart belka-stalowa-backend || pm2 start python -m flask run
        pm2 save
-      # EOF
+       EOF
       env:
        DEPLOY_SERVER: vps-9f62e310.vps.ovh.net
        DEPLOY_USER: ubuntu
