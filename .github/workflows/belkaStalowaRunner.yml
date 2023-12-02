@@ -97,10 +97,7 @@ jobs:
        # EOF
        cd /home/ubuntu/belka-stalowa/backend
        source ./venv/bin/activate
-       export FLASK_APP=req
-       pm2 start python3 -m flask run --name belka-stalowa-backend --cwd /home/ubuntu/belka-stalowa/backend
-
-       #pm2 restart belka-stalowa-backend || pm2 start python3 -m flask run
+       pm2 start python3 /home/ubuntu/belka-stalowa/backend/req.py --name belka-stalowa-backend
        pm2 save
        
       env:
