@@ -82,6 +82,7 @@ jobs:
        # If there's an existing PM2 process for the app, stop it
        pm2 stop angular-app || true
    
+       
        # Start the Angular app using PM2
        pm2 start http-server -- -p 4201 -d false --path ./dist/belka-stalowa
        # Save the PM2 process list
