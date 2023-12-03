@@ -76,7 +76,7 @@ jobs:
        #ssh ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }} << 'EOF'
        # Restart the Angular app
        cd /home/ubuntu/belka-stalowa/
-       #pm2 restart "angular-app"
+       #pm2 start "angular-app"
        #pm2 start "http-server -p 4201" --name "angular-app"
        #pm2 save
        # If there's an existing PM2 process for the app, stop it
