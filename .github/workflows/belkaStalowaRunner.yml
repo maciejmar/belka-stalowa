@@ -58,12 +58,10 @@ jobs:
       run: |
         # Start the SSH agent
         eval "$(ssh-agent -s)"
+
         # Add the SSH key stored in GitHub secrets to the agent
         echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-        # Setup SSH Key
-        #echo "$SSH_PRIVATE_KEY" > private.key
-        #chmod 600 private.key
-        #ssh-add private.key
+      
         # Bypass host key checking
         ssh-keyscan -H ${{ env.DEPLOY_SERVER }} >> ~/.ssh/known_hosts
 
@@ -84,7 +82,7 @@ jobs:
    
        
        # Start the Angular app using PM2
-       pm2 start http-server -- -p 4201 -d false --path ./dist/belka-stalowa
+       pm2 start http-server -- -p 4201 -d false --name "angular-app" --path ./dist/belka-stalowa
 
        # Save the PM2 process list
        pm2 save 
