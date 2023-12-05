@@ -93,8 +93,8 @@ jobs:
        fi
 
        # Restart the Flask app
-       pm2 stop belka-stalowa-backend || true
-       pm2 save
+       #pm2 stop belka-stalowa-backend || true
+       #pm2 save
        chmod +x /home/ubuntu/belka-stalowa/backend/venv/bin/activate
  
        # Restart the Flask app
