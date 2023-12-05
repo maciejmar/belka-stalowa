@@ -63,7 +63,7 @@ jobs:
           pm2 stop belka-stalowa-backend || true
           pm2 start python3 /home/ubuntu/belka-stalowa/backend/app.py --name belka-stalowa-backend --interpreter python3 --interpreter-args='-m flask run --host=0.0.0.0 --port=5000'
           pm2 save
-          #EOF
+          EOF
        
       env:
         DEPLOY_SERVER: vps-9f62e310.vps.ovh.net
