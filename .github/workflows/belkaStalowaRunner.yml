@@ -79,7 +79,7 @@ jobs:
        #pm2 save
        #If there's an existing PM2 process for the app, stop it
        pm2 stop angular-app || true
-       pm2 stop http-server || true
+       #pm2 stop http-server || true
        sudo systemctl restart nginx
        
        # Start the Angular app using PM2
