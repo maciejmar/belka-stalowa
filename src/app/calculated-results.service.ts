@@ -9,7 +9,7 @@ import { environment } from './../environments/environment';
   providedIn: 'root'
 })
 export class CalculatedResultsService {
-  url = "${environment.apiUrl}/calculated_results"
+  url = `${environment.apiUrl}/calculated_results`
   constructor(private http: HttpClient) { }
 
 

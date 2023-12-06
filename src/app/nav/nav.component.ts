@@ -32,7 +32,7 @@ export class NavComponent implements OnInit {
      };
      resultsBeamArray:ResultsBeam[]=[];
      data:any;
-     url='${environment.apiUrl}/update'
+     url=`${environment.apiUrl}/update`
 
     constructor( private http: HttpClient, private dataFromForm: DataFormService) {
       this.steelForm = new FormGroup ({

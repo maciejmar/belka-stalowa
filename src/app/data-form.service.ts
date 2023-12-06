@@ -12,13 +12,13 @@ import { environment } from './../environments/environment';
   providedIn: 'root'
 })
 export class DataFormService {
- url = "${environment.apiUrl}/update";
- urlget ="${environment.apiUrl}/results"
- urlCalculatedResults = "${environment.apiUrl}/calculated_results"
- urlAv = "${environment.apiUrl}/scinanie"
- urlN = "${environment.apiUrl}/usability"
- urlAd = "${environment.apiUrl}/support"
- urlHT = "${environment.apiUrl}/intersection"
+ url = `${environment.apiUrl}/update`;
+ urlget =`${environment.apiUrl}/results`
+ urlCalculatedResults = `${environment.apiUrl}/calculated_results`
+ urlAv = `${environment.apiUrl}/scinanie`
+ urlN = `${environment.apiUrl}/usability`
+ urlAd = `${environment.apiUrl}/support`
+ urlHT = `${environment.apiUrl}/intersection`
 
 constructor(private http: HttpClient) { }
 
