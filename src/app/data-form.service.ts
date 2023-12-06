@@ -4,19 +4,21 @@ import {Observable} from 'rxjs'
 import { Results } from './results';
 import { ResultsComponent } from './results/results.component';
 import { ResultsBeam } from '../../src/resultsdata';
+import { environment } from './../environments/environment';
+
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataFormService {
- url = "http://localhost:5000/update";
- urlget ="http://localhost:5000/results"
- urlCalculatedResults = "http://localhost:5000/calculated_results"
- urlAv = "http://localhost:5000/scinanie"
- urlN = "http://localhost:5000/usability"
- urlAd = "http://localhost:5000/support"
- urlHT = "http://localhost:5000/intersection"
+ url = "${environment.apiUrl}/update";
+ urlget ="${environment.apiUrl}/results"
+ urlCalculatedResults = "${environment.apiUrl}/calculated_results"
+ urlAv = "${environment.apiUrl}/scinanie"
+ urlN = "${environment.apiUrl}/usability"
+ urlAd = "${environment.apiUrl}/support"
+ urlHT = "${environment.apiUrl}/intersection"
 
 constructor(private http: HttpClient) { }
 

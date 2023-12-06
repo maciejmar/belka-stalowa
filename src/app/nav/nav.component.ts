@@ -5,6 +5,7 @@ import { DataFormService } from '../data-form.service'
 import { Observable } from 'rxjs'
 import { Results } from '../results'
 import { ResultsBeam } from 'src/resultsdata';
+import { environment } from '../../environments/environment';
 
 
 @Component({
@@ -31,7 +32,7 @@ export class NavComponent implements OnInit {
      };
      resultsBeamArray:ResultsBeam[]=[];
      data:any;
-     url='http://localhost:5000/update'
+     url='${environment.apiUrl}/update'
 
     constructor( private http: HttpClient, private dataFromForm: DataFormService) {
       this.steelForm = new FormGroup ({
