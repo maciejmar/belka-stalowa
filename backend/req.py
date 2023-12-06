@@ -585,4 +585,4 @@ def detail(id):
 
 #print(all_results)
 showResultsBeam(con_2)
-app.run()
+app.run(host='0.0.0.0', port=5000)
