@@ -1,18 +1,6 @@
 
-/*
-div::before {
-  content: 'Nowy wiersz';
-  display: inline;
-  border: 1px solid red;
-}
-div::after {
-  content: '--';
-  display: block;
-  border: 1px solid green;
-}
-*/
 .card-my {
   width: 393px;
-  color:rgb(59, 129, 91);
+  color:rgb(46, 4, 32);
   background-color:rgba(72, 64, 80,.1);
 }

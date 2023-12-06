@@ -74,16 +74,19 @@ jobs:
        #ssh ${{ env.DEPLOY_USER }}@${{ env.DEPLOY_SERVER }} << 'EOF'
        # Restart the Angular app
        cd /home/ubuntu/belka-stalowa/
+
        #pm2 start "angular-app"
        #pm2 start "http-server -p 4203" --name "angular-app"
        #pm2 save
        #If there's an existing PM2 process for the app, stop it
+
        pm2 stop angular-app || true
+
        #pm2 stop http-server || true
        sudo systemctl restart nginx
        
-       # Start the Angular app using PM2
-       # Check if Nginx is running
+       echo "Start the Angular app using PM2"
+       
        if systemctl is-active --quiet nginx; then
          echo "Nginx is running. Restarting Nginx..."
          sudo systemctl restart nginx
@@ -95,6 +98,7 @@ jobs:
        # Restart the Flask app
        #pm2 stop belka-stalowa-backend || true
        #pm2 save
+
        chmod +x /home/ubuntu/belka-stalowa/backend/venv/bin/activate
  
        # Restart the Flask app
@@ -102,7 +106,8 @@ jobs:
        cd /home/ubuntu/belka-stalowa/backend
        source venv/bin/activate
        export FLASK_APP=req.py
-       pm2 restart belka-stalowa-backend || pm2 start flask --name belka-stalowa-backend --interpreter python3 --interpreter-args='run --host=0.0.0.0 --port=5000'
+       pm2 start flask --name belka-stalowa-backend --interpreter python3 --interpreter-args='run --host=0.0.0.0 --port=5000'
+       #pm2 restart belka-stalowa-backend || pm2 start flask --name belka-stalowa-backend --interpreter python3 --interpreter-args='run --host=0.0.0.0 --port=5000'
        #pm2 restart belka-stalowa-backend || pm2 start python -m flask run --name belka-stalowa-backend --interpreter python3 --interpreter-args='run --host=0.0.0.0 --port=5000'
        pm2 save
        
