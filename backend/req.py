@@ -568,7 +568,7 @@ def intersect():
       update_table({'t': t})
     else: print('No ',get_variable_name(t),' , so inserting in the db not successed' ) 
     
-    Epsilon = 1 #temporary
+    Epsilon = 1 #temporary - change this in production mode!
     response_message = message['correct'] if data['h']/data['t'] <= 70*Epsilon else message['incorrect']
     return jsonify({"message": response_message})
     
