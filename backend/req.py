@@ -1,5 +1,5 @@
 import flask
-from flask import jsonify, Flask, request, render_template, url_for, redirect
+from flask import jsonify, Flask, request, Response, render_template, url_for, redirect
 from flask_cors import CORS
 import requests
 import logging
@@ -7,6 +7,7 @@ import sqlite3
 import json
 import logging
 import math
+
 #import pdb; pdb.set_trace()
 
 app = Flask(__name__)
@@ -570,9 +571,11 @@ def intersect():
     Epsilon = 1 #temporary
     if data['h']/data['t'] <= 70*Epsilon:
       print(message['correct'])
-      return message['correct']
+      response = Response(message['correct'], content_type="application/json; charset=utf-8")
+      return response
     print(message['incorrect'])
-    return message['incorrect']
+    response = Response(message['incorrect'], content_type="application/json; charset=utf-8")
+    return response
 
 @app.route('/detail/<id>', methods=['GET'])
 def detail(id):
