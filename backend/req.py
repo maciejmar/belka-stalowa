@@ -551,8 +551,8 @@ def oparcie():
   
 @app.route ('/intersection', methods=['GET','POST'])
 def intersect():
-  message ={"correct":"Ścianka profilu jest odporna na miejscową utratę stateczności",
-            "incorrect":"Ścianka profilu nie jest odporna na miejscową utratę stateczności"
+  message ={"correct":"Scianka profilu jest odporna na miejscową utratę stateczności",
+            "incorrect":"Scianka profilu nie jest odporna na miejscową utratę stateczności"
   }
   if request.method == 'POST':
     data = request.json
