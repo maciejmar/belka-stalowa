@@ -551,8 +551,8 @@ def oparcie():
   
 @app.route ('/intersection', methods=['GET','POST'])
 def intersect():
-  message ={"correct":"Scianka profilu jest odporna na miejscową utratę stateczności",
-            "incorrect":"Scianka profilu nie jest odporna na miejscową utratę stateczności"
+  message ={"correct":"Ścianka profilu jest odporna na miejscową utratę stateczności",
+            "incorrect":"Ścianka profilu nie jest odporna na miejscową utratę stateczności"
   }
   if request.method == 'POST':
     data = request.json
@@ -569,13 +569,10 @@ def intersect():
     else: print('No ',get_variable_name(t),' , so inserting in the db not successed' ) 
     
     Epsilon = 1 #temporary
-    if data['h']/data['t'] <= 70*Epsilon:
-      print(message['correct'])
-      response = Response(message['correct'], content_type="application/json; charset=utf-8")
-      return response
-    print(message['incorrect'])
-    response = Response(message['incorrect'], content_type="application/json; charset=utf-8")
-    return response
+    response_message = message['correct'] if data['h']/data['t'] <= 70*Epsilon else message['incorrect']
+    return jsonify({"message": response_message})
+    
+   
 
 @app.route('/detail/<id>', methods=['GET'])
 def detail(id):
