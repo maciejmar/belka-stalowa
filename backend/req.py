@@ -573,7 +573,6 @@ def intersect():
     return jsonify({"message": response_message})
     
    
-
 @app.route('/detail/<id>', methods=['GET'])
 def detail(id):
 
