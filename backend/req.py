@@ -460,9 +460,9 @@ def uzytkowalnosc():
   if request.method == 'POST':
     #sprawdzanie warunku stanu granicznego użytkowalności
     E = 210000
-    cur_2.execute('SELECT qk FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
+    cur_2.execute('SELECT q FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
     baseRow=cur_2.fetchone()
-    qk = baseRow[0]
+    qd = baseRow[0]
 
     cur_2.execute('SELECT l_0 FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
     baseRow=cur_2.fetchone()
@@ -479,8 +479,8 @@ def uzytkowalnosc():
       print('ad is correctly passed before call for inserting to db')
       update_table({'n':n})
     else: print('No ',get_variable_name(n),' , so inserting in the db not successed' )  
-
-    w = (5/384)*(qk*l**4)/(E*Imin)
+    qd= qd*0.8
+    w = (5/384)*(qd*l**4)/(E*Imin)
     w_lim= l/data['n']
     if w < w_lim:
       print ('okay')
