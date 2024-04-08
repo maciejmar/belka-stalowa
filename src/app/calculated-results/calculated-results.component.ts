@@ -44,4 +44,19 @@ export class CalculatedResultsComponent implements OnInit {
   getAllResults(){
     this.fromFormService.getResults().subscribe(data =>this.results = data);
   }
+
+  extractWmin(): number | null {
+    // Assuming the string is in `results.name` and the pattern is "Wmin:value"
+    const pattern = /Wmin:(\d+)/;
+    const len = this.results.length
+    const match = this.results[len-1].name.match(pattern);
+  
+    if (match && match[1]) {
+      // Convert the extracted string to a number and return it
+      return Number(match[1]);
+    } else {
+      // Return null if no Wmin value is found
+      return null;
+    }
+  }
 }
