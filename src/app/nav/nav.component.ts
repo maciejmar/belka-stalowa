@@ -62,7 +62,7 @@ export class NavComponent implements OnInit {
 
       submitForm() {
         this.dataFromForm.saveFormData(this.steelForm.value).subscribe((result)=>{console.log(result)});
-        console.log(this.steelForm.value);
+        console.log('this.steelForm.value ',this.steelForm.value);
       }
 
       onSubmitFormPyForm(){
