@@ -42,7 +42,11 @@ export class CalculatedResultsComponent implements OnInit {
   }
 
   getAllResults(){
-    this.fromFormService.getResults().subscribe(data =>this.results = data);
+    this.fromFormService.getResults().subscribe(data =>
+      {
+        this.results = data;
+        console.log("results is in calculated results =", this.results)
+       });
   }
 
   extractWmin(): number | null {
