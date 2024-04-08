@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DataFormService } from '../data-form.service';
 import { CalculatedResultsService } from '../calculated-results.service'
 import { Touple } from '../calculated-results';
-
+import { Results } from '../results'
 @Component({
   selector: 'app-calculated-results',
   templateUrl: './calculated-results.component.html',
@@ -13,8 +13,9 @@ import { Touple } from '../calculated-results';
 
 export class CalculatedResultsComponent implements OnInit {
   calculated_results = {"Wmin":0,"Imin":0}
-
-  constructor(private http: HttpClient, private calculated_results_:CalculatedResultsService) { }
+  results:Results[]=[]
+  constructor(private http: HttpClient, private calculated_results_:CalculatedResultsService
+    , private fromFormService: DataFormService) { }
   touple:Touple={
     "Wmin":0,
     "Imin":0
@@ -38,5 +39,9 @@ export class CalculatedResultsComponent implements OnInit {
     if(this.touple)
       console.log('onSubmitTouple() - ', this.touple)
       this.calculated_results_.saveDataTouple(this.touple).subscribe()
+  }
+
+  getAllResults(){
+    this.fromFormService.getResults().subscribe(data =>this.results = data);
   }
 }
