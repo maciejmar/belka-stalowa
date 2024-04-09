@@ -14,6 +14,7 @@ import { Results } from '../results'
 export class CalculatedResultsComponent implements OnInit {
   calculated_results = {"Wmin":0,"Imin":0}
   results:Results[]=[]
+  Minim!: Results
   constructor(private http: HttpClient, private calculated_results_:CalculatedResultsService
     , private fromFormService: DataFormService) { }
   touple:Touple={
@@ -27,10 +28,13 @@ export class CalculatedResultsComponent implements OnInit {
   })
 
   ngOnInit(): void {
+    this.getAllResults();
+
   }
 
    
-     getCalculated = this.fromFormService.getCalculatedResults().subscribe(data =>this.calculated_results = data);
+   
+     
 
    
 
@@ -41,12 +45,16 @@ export class CalculatedResultsComponent implements OnInit {
       this.calculated_results_.saveDataTouple(this.touple).subscribe()
   }
 
-  getAllResults(){
+    getAllResults():Results{
+    
     this.fromFormService.getResults().subscribe(data =>
       {
         this.results = data;
+        this.Minim= this.results[0];
         console.log("results is in calculated results =", this.results)
        });
+       
+    return this.Minim;
   }
 
   extractWmin(): number | null {
