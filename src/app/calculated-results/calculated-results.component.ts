@@ -29,10 +29,10 @@ export class CalculatedResultsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  // getCalculated_Results () {
-  //   this.dataFromForm.getCalculatedResults().subscribe(data =>this.calculated_results = data);
+   getCalculated_Results () {
+     this.fromFormService.getCalculatedResults().subscribe(data =>this.calculated_results = data);
 
-  // }
+   }
 
 
   onSubmitTouple(){
