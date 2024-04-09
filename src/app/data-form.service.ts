@@ -35,6 +35,7 @@ constructor(private http: HttpClient) { }
   }
   getCalculatedResults():Observable<{"Wmin":number, "Imin":number}>{
     const results = this.http.get<{"Wmin":number, "Imin":number}>(this.urlCalculatedResults)
+    console.log('results in calculatedResults here ', results);
     return results;
   }
 
