@@ -15,6 +15,10 @@ export class CalculatedResultsComponent implements OnInit {
   calculated_results = {"Wmin":0,"Imin":0}
   results:Results[]=[]
   Minim!: Results
+  Winim!: Results
+  wmin!: string
+  imin!:string
+
   constructor(private http: HttpClient, private calculated_results_:CalculatedResultsService
     , private fromFormService: DataFormService) { }
   touple:Touple={
@@ -50,8 +54,13 @@ export class CalculatedResultsComponent implements OnInit {
     this.fromFormService.getResults().subscribe(data =>
       {
         this.results = data;
-        this.Minim= this.results[0];
-        console.log("results is in calculated results =", this.results)
+        this.Minim= this.results[7];
+        
+        const wmin = this.Minim.toString()[7]
+        const imin = this.Minim.toString()[8]
+       
+        
+        console.log("results is in calculated results =", this.results, 'wmin ',wmin,'imin ',imin)
        });
        
     return this.Minim;
