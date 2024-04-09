@@ -2,11 +2,14 @@
 <a routerLink ="/">HOME</a>
 <a routerLink = "/calculated_results">Calculate Wmin Imin</a>
 </div>
-<ul>
-  <li *ngFor="let item of results">
-    {{item}}
-  </li>
-</ul>
+<table>
+  <tr *ngFor="let item of results">
+    <!-- Split the item by comma and then iterate over each number -->
+    <td *ngFor="let number of item.split(',')">
+      {{number}}
+    </td>
+  </tr>
+</table>
 <br>
 
 
