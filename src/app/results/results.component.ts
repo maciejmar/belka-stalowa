@@ -28,6 +28,7 @@ labels:string[]=['l_0', 'steelType', 'q', 'V', 'qk', 'M', 'Wmin', 'Imin', 'Av', 
 
   getItemsForCurrentPage(): string {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    console.log(this.results.toString().slice(startIndex, startIndex + this.itemsPerPage))
     return this.results.toString().slice(startIndex, startIndex + this.itemsPerPage);
   }
 
