@@ -13,7 +13,12 @@ import { Results } from '../results'
 
 export class CalculatedResultsComponent implements OnInit {
   calculated_results = {"Wmin":0,"Imin":0}
-  results:Results[]=[]
+  
+  results: Results[] = [
+    { name: 'Name1', userName: 'Username1' },
+    { name: 'Name2', userName: 'Username2' },
+    
+  ];
   Minim!: Results
   Winim!: Results
   wmin!: string
