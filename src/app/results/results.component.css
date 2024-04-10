@@ -23,6 +23,6 @@ table {
     margin: 0 10px;
   }
 
-  tbody tr:nth-child(2) td {
+  tbody tr:nth-child(1) td {
     background-color: yellow; 
   }
