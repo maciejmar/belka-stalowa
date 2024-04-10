@@ -4,9 +4,12 @@
 </div>
 <table>
   <tr *ngFor="let item of results">
-    <!-- Split the item by comma and then iterate over each number -->
-    <td *ngFor="let number of item.split(',')">
-      {{number}}
+    <!--
+    <td *ngFor="let number of (item as string).split(',')">
+    -->
+    <td *ngFor="let number of item.toString().split(',')">
+      {{ number }}
+
     </td>
   </tr>
 </table>
