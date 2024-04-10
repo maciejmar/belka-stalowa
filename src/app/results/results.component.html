@@ -3,16 +3,28 @@
 <a routerLink = "/calculated_results">Calculate Wmin Imin</a>
 </div>
 <table>
-  <tr *ngFor="let item of results">
-    <!--
-    <td *ngFor="let number of (item as string).split(',')">
-    -->
-    <td *ngFor="let number of item.toString().split(',')">
-      {{ number }}
+  <thead>
+    <tr *ngFor="label of labels">
+        {{label}}
+      <!-- Add more <th> tags as needed -->
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of results">
+      <!--
+      <td *ngFor="let number of (item as string).split(',')">
+      -->
+      <td *ngFor="let number of getItemsForCurrentPage()">
+        {{ number }}
 
-    </td>
-  </tr>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <br>
-
+<div class="pagination">
+  <button (click)="goToPage(currentPage - 1)">Previous</button>
+  <span>Page {{currentPage}} of {{totalPages}}</span>
+  <button (click)="goToPage(currentPage + 1)">Next</button>
+</div>
 

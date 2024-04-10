@@ -13,6 +13,7 @@ results:Results[]=[]
 currentPage: number = 1;
 itemsPerPage: number = 10;
 totalPages: number=0;
+labels:string[]=['l_0', 'steelType', 'q', 'V', 'qk', 'M', 'Wmin', 'Imin', 'Av', 'n', 'Ad', 'f_cdd', 'h','t', 'Ved' ];
   constructor(private dataFromForm: DataFormService) { 
     this.totalPages = Math.ceil(this.results.length / this.itemsPerPage);
   }
