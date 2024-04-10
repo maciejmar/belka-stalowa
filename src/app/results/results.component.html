@@ -3,11 +3,12 @@
 <a routerLink = "/calculated_results">Calculate Wmin Imin</a>
 </div>
 <table>
-  <thead><!--
-    <tr *ngFor="let label of labels">
+  <thead>
+    <tr>
+      <td *ngFor="let label of labels">
         {{label}}
-      
-    </tr> -->
+      </td>
+    </tr> 
   </thead>
   <tbody>
     <tr *ngFor="let item of results">

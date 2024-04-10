@@ -11,7 +11,7 @@ import { DataFormService } from '../data-form.service';
 export class ResultsComponent implements OnInit {
 results:Results[]=[]
 currentPage: number = 1;
-itemsPerPage: number = 10;
+itemsPerPage: number = 100;
 totalPages: number=0;
 labels:string[]=['l_0', 'steelType', 'q', 'V', 'qk', 'M', 'Wmin', 'Imin', 'Av', 'n', 'Ad', 'f_cdd', 'h','t', 'Ved' ];
   constructor(private dataFromForm: DataFormService) { 
