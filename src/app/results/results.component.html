@@ -16,7 +16,7 @@
       <td *ngFor="let number of (item as string).split(',')">
       -->
       <tr *ngFor="let item of getItemsForCurrentPage(); let i = index"> 
-        <td *ngFor="let item of splitData(results.toString())">{{ item }}
+        <td *ngFor="let number of splitData(item.toString())">{{ number }}
       <!-- item.toString().split(','); let i = index" -->
         
        </td>
