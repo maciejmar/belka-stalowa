@@ -50,5 +50,7 @@ labels:string[]=['l_0', 'steelType', 'q', 'V', 'qk', 'M', 'Wmin', 'Imin', 'Av', 
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
   }
-
+  splitData(data: string): string[] {
+    return data.split(',');
+  }
 }

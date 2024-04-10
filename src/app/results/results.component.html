@@ -11,16 +11,17 @@
     </tr> 
   </thead>
   <tbody>
-    <tr *ngFor="let item of results">
-      <!--
+   <!-- <tr *ngFor="let item of results">
+      
       <td *ngFor="let number of (item as string).split(',')">
       -->
-      <td *ngFor="let item of getItemsForCurrentPage(); let i = index"> 
+      <tr *ngFor="let item of getItemsForCurrentPage(); let i = index"> 
+        <td *ngFor="let item of splitData(results.toString())">{{ item }}
       <!-- item.toString().split(','); let i = index" -->
         {{ item }}
-
-      </td>
-    </tr>
+       </td>
+      </tr>
+    
   </tbody>
 </table>
 <br>
