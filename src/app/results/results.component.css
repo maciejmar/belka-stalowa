@@ -1,0 +1,14 @@
+table {
+    border-collapse: collapse; /* Ensures that the border is neat */
+    width: 100%; /* Adjust as needed */
+  }
+  
+  td, th {
+    border: 1px solid black; /* Adds border around each cell */
+    text-align: left; /* Adjust text alignment as needed */
+    padding: 8px; /* Adjust padding as needed */
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f2f2f2; /* Optional: Adds zebra striping for rows */
+  }
