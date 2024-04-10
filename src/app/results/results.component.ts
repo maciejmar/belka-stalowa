@@ -16,7 +16,7 @@ export class ResultsComponent implements OnInit {
   ];
 
 currentPage: number = 1;
-itemsPerPage: number = 100;
+itemsPerPage: number = 10;
 totalPages: number=0;
 labels:string[]=['l_0', 'steelType', 'q', 'V', 'qk', 'M', 'Wmin', 'Imin', 'Av', 'n', 'Ad', 'f_cdd', 'h','t', 'Ved' ];
   constructor(private dataFromForm: DataFormService) { 
