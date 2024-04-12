@@ -65,7 +65,7 @@ export class CalculatedResultsComponent implements OnInit {
         const imin = this.Minim.toString()[8]
        
         
-        console.log("results is in calculated results =", this.results, 'wmin ',wmin,'imin ',imin)
+        console.log("results is in calculated results =", 'wmin ',wmin,'imin ',imin)
        });
        
     return this.Minim;
