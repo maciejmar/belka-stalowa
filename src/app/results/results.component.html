@@ -1,6 +1,6 @@
 <div class="card" style="font-size: 2rem; margin:auto; font-weight: 700px;width: 18rem;">
 <a routerLink ="/">HOME</a>
-<a routerLink = "/calculated_results">Calculate Wmin Imin</a>
+<a routerLink = "/calculated_results">Oblicz Wmin Imin</a>
 </div>
 <table>
   <thead>
@@ -27,8 +27,8 @@
 </table>
 <br>
 <div class="pagination">
-  <button class="btn btn-info" (click)="goToPage(currentPage - 1)">Previous</button>
+  <button class="btn btn-info" (click)="goToPage(currentPage - 1)">Poprzednia</button>
   <span>Page {{currentPage}} of {{totalPages}}</span>
-  <button class="btn btn-info" (click)="goToPage(currentPage + 1)">Next</button>
+  <button class="btn btn-info" (click)="goToPage(currentPage + 1)">Następna</button>
 </div>
 
