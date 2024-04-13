@@ -60,9 +60,9 @@ export class CalculatedResultsComponent implements OnInit {
       {
         this.results = data;
         this.Minim= this.results[7];
-        
-        const wmin = this.Minim.toString()[7]
-        const imin = this.Minim.toString()[8]
+        const len = this.results.length;
+        const wmin = this.Minim.toString()[len-1]
+        const imin = this.Minim.toString()[len-1]
        
         
         console.log("results is in calculated results =", this.results, 'wmin ',wmin,'imin ',imin)
