@@ -59,14 +59,13 @@ export class CalculatedResultsComponent implements OnInit {
     this.fromFormService.getResults().subscribe(data =>
       {
         this.results = data;
-        const len = this.results.length;
-        this.Minim= this.results[len-1];
+        this.Minim= this.results[7];
         
         const wmin = this.Minim.toString()[7]
         const imin = this.Minim.toString()[8]
+       
         
-        
-        console.log("results is in calculated results =", 'wmin ',wmin,'imin ',imin)
+        console.log("results is in calculated results =", this.results, 'wmin ',wmin,'imin ',imin)
        });
        
     return this.Minim;
