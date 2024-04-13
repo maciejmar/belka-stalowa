@@ -85,4 +85,9 @@ export class CalculatedResultsComponent implements OnInit {
       return null;
     }
   }
+  extract(Minim:string):string []{
+    let res= Minim.split( ',');
+    console.log('Extracting res ',res) 
+    return res
+  }
 }
