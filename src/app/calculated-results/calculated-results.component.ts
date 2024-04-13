@@ -13,12 +13,7 @@ import { Results } from '../results'
 
 export class CalculatedResultsComponent implements OnInit {
   calculated_results = {"Wmin":0,"Imin":0}
-  
-  results: Results[] = [
-    { name: 'Name1', userName: 'Username1' },
-    { name: 'Name2', userName: 'Username2' },
-    
-  ];
+  results:Results[]=[]
   Minim!: Results
   Winim!: Results
   wmin!: string
@@ -59,14 +54,12 @@ export class CalculatedResultsComponent implements OnInit {
     this.fromFormService.getResults().subscribe(data =>
       {
         this.results = data;
+        this.Minim= this.results[7];
+        const len = this.Minim.toString().length;
+        const wmin = this.Minim.toString()[len]
+
         
-        const len = this.results.length;
-        this.Minim= this.results[len-1];
-        //const wmin = this.Minim.toString()[6]
-        //const imin = this.Minim.toString()[7]
-        
-        
-        console.log("results is in calculated results =", this.results, 'wmin ',wmin,'imin ',imin)
+        console.log("results is in calculated results =", this.results)
        });
        
     return this.Minim;
@@ -85,10 +78,5 @@ export class CalculatedResultsComponent implements OnInit {
       // Return null if no Wmin value is found
       return null;
     }
-  }
-  extract(Minim:string):string []{
-    let res= Minim.split( ',');
-    console.log('Extracting res ',res) 
-    return res
   }
 }
