@@ -71,6 +71,7 @@ export class CalculatedResultsComponent implements OnInit {
    let resTemp3 = resTemp[7];
    let ret = [];
    ret.push(resTemp2,resTemp3);
+   console.log('here will be ret');
    console.log('ret - ', ret);
    return ret
   }
