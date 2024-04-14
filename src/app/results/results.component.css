@@ -27,3 +27,7 @@ table {
   tbody tr:nth-child(1) td {
     background-color: rgb(245, 188, 3); 
   }
+
+  a{
+    text-decoration: none;
+  }
