@@ -61,16 +61,20 @@ export class CalculatedResultsComponent implements OnInit {
     return this.Minim
   }
   extract(): string[]{
-   let res = this.results[this.results.length - 1];
-   let resTemp = res.toString().split(',');
-   console.log('resTemp=',resTemp);
-   let resTemp2 = resTemp[6];
-   let resTemp3 = resTemp[7];
-   let ret = [];
-   ret.push(resTemp2,resTemp3);
-   console.log('here will be ret');
-   console.log('ret - ', ret);
-   return ret
+   if (this.results) {
+      let res = this.results[this.results.length - 1];
+      let resTemp = res.toString().split(',');
+      console.log('resTemp=',resTemp);
+      let resTemp2 = resTemp[6];
+      let resTemp3 = resTemp[7];
+      let ret = [];
+      ret.push(resTemp2,resTemp3);
+      console.log('here will be ret');
+      console.log('ret - ', ret);
+      return ret
+    } 
+  else  return []
+
   }
 
   extractWmin(): number | null {
