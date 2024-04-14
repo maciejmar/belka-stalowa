@@ -63,6 +63,7 @@ export class CalculatedResultsComponent implements OnInit {
   extract(): string[]{
    let res = this.results[this.results.length - 1];
    let resTemp = res.toString().split(',');
+   console.log('resTemp=',resTemp);
    let resTemp2 = resTemp[6];
    let resTemp3 = resTemp[7];
    let ret = [];
