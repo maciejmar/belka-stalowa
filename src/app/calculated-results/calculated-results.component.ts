@@ -63,6 +63,7 @@ export class CalculatedResultsComponent implements OnInit {
   extract(): string[]{
    if (this.results) {
       let res = this.results[this.results.length - 1];
+      console.log('length of results = ',this.results.length)
       let resTemp = res.toString().split(',');
       console.log('resTemp=',resTemp);
       let resTemp2 = resTemp[6];
@@ -72,6 +73,7 @@ export class CalculatedResultsComponent implements OnInit {
       console.log('here will be ret');
       console.log('ret - ', ret);
       return ret
+       
     } 
   else  return []
 
