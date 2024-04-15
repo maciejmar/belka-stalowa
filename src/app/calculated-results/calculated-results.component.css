@@ -18,3 +18,7 @@ a{
 .marginLeft{
     margin-left:2%;
 }
+c-size{
+   width: 50%;
+   background-color: rgb(201, 168, 216);
+}
