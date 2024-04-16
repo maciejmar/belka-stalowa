@@ -1,4 +1,5 @@
 export interface Touple {
   Wmin:number,
-  Imin:number
+  Imin:number,
+  qk:number
 }

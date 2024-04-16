@@ -80,7 +80,7 @@ def steelParams(data):
   qSolvi = data['qk'] + data['q']
   Mbending  = 0.125 * pow(qSolvi,2)
   Wmin = (data['M'] * 10^6)/fy
-  Imin = (5/384) * (data['qk'] * pow(data['l_0'],3))/Ee
+  Imin = (5/384) * ((data['qk'] * pow(data['l_0'],3))/Ee)*data['n']
   print ('Wmin = ', Wmin, " Imin = ", Imin)
   return {"Wmin":Wmin, "Imin":Imin}
 
@@ -342,12 +342,14 @@ def user(usr):
 
 @app.route('/calculateda_results', methods=['GET'])
 def tupleA():
-  lala = {"Wmin":1.0,"Imin":1.0}
+  lala = {"Wmin":1.0,"Imin":1.0,"qk":1.0}
   cur_2.execute('SELECT Wmin FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')#ORDER BY Wmin DESC LIMIT 1
   lala['Wmin']=cur_2.fetchone()
   print("lala Wmin = ", lala['Wmin'])
   cur_2.execute('SELECT Imin FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
   lala['Imin']=cur_2.fetchone()
+  cur_2.execute('SELECT qk FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
+  lala['qk']=cur_2.fetchone()
   return lala
   #print("lala Imin = ", lala['Imin'])
   #headers = {'accept': 'application/json'}
@@ -365,10 +367,11 @@ def submitTouple():
   if request.method == 'POST':
     Wmin = data['Wmin']
     Imin = data['Imin']
-    cur_2.execute("""UPDATE resultsBeam SET Wmin = ?, Imin = ? WHERE ROWID = (SELECT MAX(ROWID) FROM resultsBeam) """, (Wmin,Imin))
+    qk   = data['qk']
+    cur_2.execute("""UPDATE resultsBeam SET Wmin = ?, Imin = ?, qk=? WHERE ROWID = (SELECT MAX(ROWID) FROM resultsBeam) """, (Wmin,Imin,qk))
     con_2.commit()
     print('now it ----')
-    print('hello here submittouple data[wmin],data[imin]',data['Wmin'],data['Imin'])
+    print('hello here submittouple data[wmin],data[imin],data[qk] ',data['Wmin'],data['Imin'],data['qk'])
     calculateAfterWminCorrection()
     print('data before return', data)
   return data

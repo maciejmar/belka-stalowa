@@ -12,7 +12,7 @@ import { Results } from '../results'
 })
 
 export class CalculatedResultsComponent implements OnInit {
-  calculated_results = {"Wmin":0,"Imin":0}
+  calculated_results = {"Wmin":0,"Imin":0,"qk":0}
   results:Results[]=[]
   Minim!: Results
   Winim!: Results
@@ -21,26 +21,22 @@ export class CalculatedResultsComponent implements OnInit {
 
   constructor(private http: HttpClient, private calculated_results_:CalculatedResultsService
     , private fromFormService: DataFormService) { }
-  touple:Touple={
+  touple={
     "Wmin":0,
-    "Imin":0
+    "Imin":0,
+    "qk":0
   }
   newToupleWminImin = new FormGroup ({
 
       WminNew : new FormControl ('', Validators.required),
-      IminNew : new FormControl ('', Validators.required)
+      IminNew : new FormControl ('', Validators.required),
+      qk      : new FormControl ('', Validators.required)
   })
 
   ngOnInit(): void {
     this.getAllResults();
 
   }
-
-   
-   
-     
-
-   
 
 
   onSubmitTouple(){
@@ -79,18 +75,5 @@ export class CalculatedResultsComponent implements OnInit {
 
   }
 
-  extractWmin(): number | null {
-    // Assuming the string is in `results.name` and the pattern is "Wmin:value"
-    const pattern = /Wmin:(\d+)/;
-    const len = this.results.length
-    const match = this.results[len-1].name.match(pattern);
-  
-    if (match && match[1]) {
-      // Convert the extracted string to a number and return it
-      return Number(match[1]);
-    } else {
-      // Return null if no Wmin value is found
-      return null;
-    }
-  }
+ 
 }
