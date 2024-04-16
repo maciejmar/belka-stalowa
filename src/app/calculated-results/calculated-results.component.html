@@ -11,11 +11,11 @@
     <div   class="card" style="width: 20rem;height:36rem;margin-left:3rem;">
       <br>
       <form class= "form-control form-control-lg" name="newToupleWminImin" method="post" >
-          <label name="Podaj W"></label>
+          <label name="Podaj W">Podaj W [mm3]</label>
           <input class= "form-control" type="number" [(ngModel)] = "touple.Wmin" name = "WminNew">
-          <label name="Podaj I"></label>
+          <label name="Podaj I">Podaj I [mm4]</label>
           <input class= "form-control" type="number" [(ngModel)]= "touple.Imin" name = "IminNew"><br>
-          <label name="Podaj I"></label>
+          <label name="Podaj I">Podaj gk [kN/m]</label>
           <input class= "form-control" type="number" [(ngModel)]= "touple.qk" name = "qkNew"><br>
           <button type="button" class="btn btn-outline-primary"
           (click) = onSubmitTouple()>Zatwierdź</button>
