@@ -42,6 +42,7 @@ export class NavComponent implements OnInit {
           qk : new FormControl ('', Validators.required),
           M : new FormControl ('', Validators.required),
           V : new FormControl('', Validators.required),
+          n: new FormControl ('', Validators.required),
           Wmin:new FormControl(''),
           Imin: new FormControl('')
         });

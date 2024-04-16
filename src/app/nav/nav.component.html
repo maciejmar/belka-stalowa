@@ -61,7 +61,8 @@
             <!-- Moment zginający M -->
             <label>Moment zginający </label><span style="font-weight:700;background-color:rgb(171, 209, 184);">m</span>
               <input class="form-control form-rounded" type="number" formControlName="M">
-
+            <label>n - współczynnik</label>
+            <input class="form-control form-rounded" type="number" formControlName="n">
           <button [disabled] = "!this.steelForm.valid" type="submit" class="btn btn-primary" style="margin-top:2rem;"
             data-toggle="tooltip"
             tooltipClass="round"
