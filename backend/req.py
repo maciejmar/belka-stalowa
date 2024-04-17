@@ -256,10 +256,9 @@ def insertToDB(val, valName):
         'n': 'column10',
         'Ad': 'column11',
         'fcdd': 'column12',
-        'f': 'column13',
-        'h': 'column14',
-        't': 'column15',
-        'Ved': 'column16'
+        'h': 'column13',
+        't': 'column14',
+        'Ved': 'column15'
     }
 
     if valName not in column_mapping:
