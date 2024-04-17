@@ -428,7 +428,16 @@ def scinanie():
       print('av is correctly passed before call for inserting to db')
       
       update_table({'Av':Av})
-    else: print('No ',get_variable_name(Av), ' so inserting in the db not successed' )   
+    else: print('No ',get_variable_name(Av), ' so inserting in the db not successed' ) 
+    
+    #Adding f_cdd to database
+    if data['f_cdd']:
+      fcdd = data['f_cdd']
+      print('av is correctly passed before call for inserting to db')
+      f_cdd=fcdd
+      update_table({'f_cdd':fcdd})
+    else: print('No ',get_variable_name(f_cdd), ' so inserting in the db not successed' )
+      
     
    
     
