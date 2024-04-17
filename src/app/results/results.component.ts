@@ -19,7 +19,7 @@ currentPage: number = 1;
 itemsPerPage: number = 10;
 
 
-labels:string[]=['l_0', 'steelType', 'q', 'V', 'qk', 'M', 'Wmin', 'Imin', 'Av', 'n', 'Ad', 'f_cdd', 'h','t', 'Ved' ];
+labels:string[]=['l_0[m]', 'steelType', 'q [kn/m]', 'V [kN]', 'qk [kN/m]', 'M [m]', 'Wmin [mm**3]', 'Imin [mm**4]', 'Av [m**2]', 'n', 'Ad [m**2]', 'f_cdd [kPa]', 'h [mm]','t [mm]', 'Ved [kN]' ];
   constructor(private dataFromForm: DataFormService) { 
   
   }
