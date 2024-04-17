@@ -22,7 +22,7 @@ Imin = 0
 # con = sqlite3.connect("belka-stalowa.db", check_same_thread=False);
 # cur = con.cursor();
 
-con_2 = sqlite3.connect("belka-stalowa_7.db", check_same_thread=False)
+con_2 = sqlite3.connect("belka-stalowa_8.db", check_same_thread=False)
 cur_2 = con_2.cursor()
 
 
@@ -430,13 +430,7 @@ def scinanie():
       update_table({'Av':Av})
     else: print('No ',get_variable_name(Av), ' so inserting in the db not successed' ) 
     
-    #Adding fcdd to database
-    if data['fcdd']:
-      fcdd = data['fcdd']
-      print('av is correctly passed before call for inserting to db')
-      
-      update_table({'fcdd':fcdd})
-    else: print('No ',get_variable_name(fcdd), ' so inserting in the db not successed' )
+  
       
     
    
