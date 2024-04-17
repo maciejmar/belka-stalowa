@@ -255,10 +255,11 @@ def insertToDB(val, valName):
         'Av': 'column9',
         'n': 'column10',
         'Ad': 'column11',
-        'f': 'column12',
-        'h': 'column13',
-        't': 'column14',
-        'Ved': 'column15'
+        'fcdd': 'column12',
+        'f': 'column13',
+        'h': 'column14',
+        't': 'column15',
+        'Ved': 'column16'
     }
 
     if valName not in column_mapping:
