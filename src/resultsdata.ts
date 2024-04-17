@@ -10,7 +10,7 @@ export interface ResultsBeam {
   Av: number,
   n: number,
   Ad: number,
-  f_cdd: number,
+  fcdd: number,
   h: number,
   t:number,
   Ved: number

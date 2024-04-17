@@ -28,7 +28,7 @@ export class NavComponent implements OnInit {
      result:Results={'name':'as','userName':'sds'};
      results:Results[]=[];
      resultsBeam:ResultsBeam = {'l_0':1,'steelType':'stx0', 'q':2,'V':3,'qk':4,'M':5,'Wmin':4,'Imin':3,
-                                'Av':2,'n':2,'Ad':2,'f_cdd':0,'h':2, 't':1, 'Ved':1
+                                'Av':2,'n':2,'Ad':2,'fcdd':0,'h':2, 't':1, 'Ved':1
      };
      resultsBeamArray:ResultsBeam[]=[];
      data:any;

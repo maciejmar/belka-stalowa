@@ -94,8 +94,8 @@ def showResultsBeam(con_2):
       print(row)
     print('---')
 
-#l_0, steelType, q, V, qk, M, Wmin, Imin, Av, n, Ad, f_cdd, h,t
-#l_0, steelType, q, V, qk, M, Wmin, Imin, Av, n, Ad, f_cdd, h,t
+#l_0, steelType, q, V, qk, M, Wmin, Imin, Av, n, Ad, fcdd, h,t
+#l_0, steelType, q, V, qk, M, Wmin, Imin, Av, n, Ad, fcdd, h,t
 #try:
  # print('We are dropping the table results')
  # cur.execute("DROP TABLE results")
@@ -103,7 +103,7 @@ def showResultsBeam(con_2):
  # print('problem with droping table')
 #CREATE TABLE IF NOT EXISTS
 try :
-  cur_2.execute("""CREATE TABLE resultsBeam(l_0 FLOAT, steelType TEXT, q FLOAT, V FLOAT, qk FLOAT, M FLOAT, Wmin FLOAT, Imin FLOAT, Av FLOAT, n FLOAT, Ad FLOAT, f_cdd FLOAT, h FLOAT,t FLOAT, Ved FLOAT)""")
+  cur_2.execute("""CREATE TABLE resultsBeam(l_0 FLOAT, steelType TEXT, q FLOAT, V FLOAT, qk FLOAT, M FLOAT, Wmin FLOAT, Imin FLOAT, Av FLOAT, n FLOAT, Ad FLOAT, fcdd FLOAT, h FLOAT,t FLOAT, Ved FLOAT)""")
   print('table was created')
 except:
   pass
@@ -322,7 +322,7 @@ def add():
       print("wmin,imin ",wmin,imin)
       #print(steelParams(data))
       
-      cur_2.execute('INSERT INTO resultsBeam (l_0, steelType, q, V, qk, M, Wmin, Imin, Av, n, Ad, f_cdd, h,t, Ved ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', (data['l_0'], data['steelType'], data['q'], data['V'], data['qk'], data['M'], data['Wmin'], data['Imin'],0,0,0,0,0,0,0.2))
+      cur_2.execute('INSERT INTO resultsBeam (l_0, steelType, q, V, qk, M, Wmin, Imin, Av, n, Ad, fcdd, h,t, Ved ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', (data['l_0'], data['steelType'], data['q'], data['V'], data['qk'], data['M'], data['Wmin'], data['Imin'],0,0,0,0,0,0,0.2))
       con_2.commit()
 
       #execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password) )
@@ -378,7 +378,7 @@ def submitTouple():
 
 @app.route('/scinanie', methods=['GET','POST'])
 def scinanie():
-  data = request.json # data consists Av - not yet: n, Ad[m_2], f_cdd[kPa]
+  data = request.json # data consists Av - not yet: n, Ad[m_2], fcdd[kPa]
 
 
   if request.method == 'POST':
@@ -421,7 +421,7 @@ def scinanie():
     if Ved / Vrd < 1:
       print('okay')
     
-    #Do not forget to add Av, n, Ad[m_2], f_cdd[kPa] to database!!!
+    #Do not forget to add Av, n, Ad[m_2], fcdd[kPa] to database!!!
     #return {'Av':data['Av']}
     if data['Av']:
       Av = data['Av']
@@ -430,13 +430,13 @@ def scinanie():
       update_table({'Av':Av})
     else: print('No ',get_variable_name(Av), ' so inserting in the db not successed' ) 
     
-    #Adding f_cdd to database
-    if data['f_cdd']:
-      fcdd = data['f_cdd']
+    #Adding fcdd to database
+    if data['fcdd']:
+      fcdd = data['fcdd']
       print('av is correctly passed before call for inserting to db')
-      f_cdd=fcdd
-      update_table({'f_cdd':fcdd})
-    else: print('No ',get_variable_name(f_cdd), ' so inserting in the db not successed' )
+      
+      update_table({'fcdd':fcdd})
+    else: print('No ',get_variable_name(fcdd), ' so inserting in the db not successed' )
       
     
    
@@ -457,10 +457,10 @@ def scinanie():
     #   insertToDB(n, varName)
     # else: print('No ',get_variable_name(data['n']),' , so inserting in the db not successed' )  
     
-    # if data['f_cdd']:
-    #   f_cdd = get_variable_name(f_cdd)
-    #   insertToDB(f_cdd, varName)
-    # else: print('No ',get_variable_name(data['f_cdd']),' , so inserting in the db not successed' ) 
+    # if data['fcdd']:
+    #   fcdd = get_variable_name(fcdd)
+    #   insertToDB(fcdd, varName)
+    # else: print('No ',get_variable_name(data['fcdd']),' , so inserting in the db not successed' ) 
     
     return "0"
   if request.method == 'GET':
