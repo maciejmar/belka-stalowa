@@ -1,34 +1,87 @@
 <div class="card" style="font-size: 2rem; margin:auto; font-weight: 700px;width: 18rem;">
-<a routerLink ="/">Obliczenia od nowa</a>
-<a routerLink = "/calculated_results">Oblicz Wmin Imin</a>
+  <a routerLink ="/">Obliczenia od nowa</a>
+  <a routerLink = "/calculated_results">Oblicz Wmin Imin</a>
 </div>
-<table>
-  <thead>
-    <tr>
-      <td *ngFor="let label of labels">
-        {{label}}
-      </td>
-    </tr> 
-  </thead>
-  <tbody>
-   <!-- <tr *ngFor="let item of results">
-      
-      <td *ngFor="let number of (item as string).split(',')">
-      -->
-      <tr *ngFor="let item of getItemsForCurrentPage(); let i = index"> 
-        <td *ngFor="let number of splitData(item.toString())">{{ number }}
-      <!-- item.toString().split(','); let i = index" -->
-        
-       </td>
-       <br>
-      </tr>
-      
-  </tbody>
-</table>
-<br>
-<div class="pagination">
-  <button class="btn btn-info" (click)="goToPage(currentPage - 1)">Poprzednia</button>
-  <span>Strona {{currentPage}} z {{totalPages}}</span>
-  <button class="btn btn-info" (click)="goToPage(currentPage + 1)">Następna</button>
+<div *ngIf=" splitData(getItemsForCurrentPage()[0].toString())[splitData(getItemsForCurrentPage()[0].toString()).length-1] != '0' &&
+             splitData(getItemsForCurrentPage()[0].toString())[splitData(getItemsForCurrentPage()[0].toString()).length-2] != '0'">
+             <div class="container-results">
+                  <div class="card"> 
+                    <table class="table table-bordered tab-border">
+                      <thead>
+                        <tr>
+                          <td>
+                            nośność
+                          </td>
+                          <td>
+                            ścinanie
+                          </td>
+                          <td>
+                            użytkowalność
+                          </td>
+                          <td>
+                            oparcie
+                          </td>
+                        </tr> 
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                              <i *ngIf="this.receiveIntersection" class="bi bi-check-circle-fill text-success"></i>
+                              <i *ngIf="!this.receiveIntersection" class="bi bi-x-circle-fill text-danger"></i>
+                          </td>
+                          <td>
+                            <i *ngIf="this.receivedData" class="bi bi-check-circle-fill text-success"></i>
+                            <i *ngIf="!this.receivedData" class="bi bi-x-circle-fill text-danger "></i>
+                              
+                          </td>
+                          <td>
+                            <i *ngIf="this.receiveDataUsability" class="bi bi-check-circle-fill text-success"></i>
+                            <i *ngIf="!this.receiveDataUsability" class="bi bi-x-circle-fill text-danger"></i>
+                              
+                          </td>
+                          <td>
+                            <i *ngIf="this.receiveDataSupport" class="bi bi-check-circle-fill text-success"></i>
+                            <i *ngIf="!this.receiveDataSupport" class="bi bi-x-circle-fill text-danger"></i>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!--table of results-->
+                  <div class="table-res">
+                      <table class="table table-bordered tab-border">
+                        <thead>
+                          <tr>
+                            <td *ngFor="let label of labels">
+                              {{label}}
+                            </td>
+                          </tr> 
+                        </thead>
+                        <tbody>
+                        <!-- <tr *ngFor="let item of results">
+                            
+                            <td *ngFor="let number of (item as string).split(',')">
+                            -->
+                            <tr *ngFor="let item of getItemsForCurrentPage(); let i = index"> 
+                              <td *ngFor="let number of splitData(item.toString())">{{ number }}
+                            <!-- item.toString().split(','); let i = index" -->
+                              
+                            </td>
+                            <br>
+                            </tr>
+                            
+                        </tbody>
+                      </table>
+                    </div> 
+              </div>
+
+    
+    <br>
+    <div class="pagination">
+      <button class="btn btn-info" (click)="goToPage(currentPage - 1)">Poprzednia</button>
+      <span>Strona {{currentPage}} z {{totalPages}}</span>
+      <button class="btn btn-info" (click)="goToPage(currentPage + 1)">Następna</button>
+    </div>
+
 </div>
 

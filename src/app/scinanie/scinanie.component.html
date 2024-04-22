@@ -1,8 +1,6 @@
 <div class="form-group form-margin">
     <h4>Ścinanie</h4>
-    <a routerLink ="/">
-      <button class="btn btn-primary">Do wyników</button>
-    </a>
+    
     <form  [formGroup]="FormForAv" novalidate (ngSubmit)="passAv()">
       <label for="Av" >Podaj wartość Av w [m2]: </label>
       <input id="Av" type="number" formControlName="Av" class="form-control">

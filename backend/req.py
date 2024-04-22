@@ -191,10 +191,10 @@ def calculateAfterWminCorrection():
   print('wmin ',Wmin)
   Mrd= Wmin *fy
   if (Med/Mrd <= 1):
-    print('okay')
+    print(' Med < Mrd - warunek nośności spełniony')
     return 1
   else:
-    print('not okay')
+    print('warunek nośności nie spełniony Med>Mrd - not okay')
     return 0
   
 def get_variable_name(var):
@@ -368,18 +368,23 @@ def submitTouple():
     Wmin = data['Wmin']
     Imin = data['Imin']
     qk   = data['qk']
+    war_nosnosci=""
     cur_2.execute("""UPDATE resultsBeam SET Wmin = ?, Imin = ?, qk=? WHERE ROWID = (SELECT MAX(ROWID) FROM resultsBeam) """, (Wmin,Imin,qk))
     con_2.commit()
     print('now it ----')
     print('hello here submittouple data[wmin],data[imin],data[qk] ',data['Wmin'],data['Imin'],data['qk'])
-    calculateAfterWminCorrection()
+    if calculateAfterWminCorrection():
+      war_nosnosci="warunek nośności został spełniony"
+    else:
+      war_nosnosci="warunek nośności nie został spełniony"
     print('data before return', data)
-  return data
+    print('warunek nośności - ',war_nosnosci)
+  return jsonify({'message': war_nosnosci, 'data': data})
 
 @app.route('/scinanie', methods=['GET','POST'])
 def scinanie():
   data = request.json # data consists Av - not yet: n, Ad[m_2], fcdd[kPa]
-
+  message=''
 
   if request.method == 'POST':
     if 'Av' not in data:
@@ -419,7 +424,10 @@ def scinanie():
     print('data[Av]=', data['Av'])
     Vrd = data['Av']*(fy/math.sqrt(3))
     if Ved / Vrd < 1:
-      print('okay')
+      print('okay - Ved is less than Vrd')
+      message='scinanie - warunek spełniony'
+    else:
+      message='scinanie - warunek niespełniony'
     
     #Do not forget to add Av, n, Ad[m_2], fcdd[kPa] to database!!!
     #return {'Av':data['Av']}
@@ -456,13 +464,14 @@ def scinanie():
     #   insertToDB(fcdd, varName)
     # else: print('No ',get_variable_name(data['fcdd']),' , so inserting in the db not successed' ) 
     
-    return "0"
+    return jsonify({"message": message})
   if request.method == 'GET':
-    return "0"
+    return 'no message by the get request'
 
 @app.route('/usability', methods=['GET','POST'])
 def uzytkowalnosc():
   data =request.json
+  message =''
   if request.method == 'POST':
     #sprawdzanie warunku stanu granicznego użytkowalności
     E = 210000
@@ -490,8 +499,11 @@ def uzytkowalnosc():
     w_lim= l/data['n']
     if w < w_lim:
       print ('okay')
+      message='war. stanu graniczego użytkowalności spełniony'
+    else:
+      message='war. stanu graniczego użytkowalności niespełniony'
 
-    return {}
+    return jsonify({"message": message})
 
 def checkKey(dic, key):
     if key in dic.keys():
@@ -506,7 +518,7 @@ def checkKey(dic, key):
 def oparcie():
   if request.method == 'POST':
     data = request.json
-
+    message=''
     fy = 0.0
     cur_2.execute('SELECT steelType FROM resultsBeam ORDER BY ROWID DESC LIMIT 1')
     row = cur_2.fetchone()
@@ -545,15 +557,18 @@ def oparcie():
       Vrdd = data['Ad']*data['fcdd']
       if Ved/Vrdd < 1:
         print(' ved/vrdd okay',Vrdd)
-      else: print(' ved/vrdd not okay')
+        message = 'warunek na docisk na oparciu belki spełniony'
+      else: 
+        print(' ved/vrdd not okay')
+        message= 'warunek na docisk na oparciu belki nie spełniony'
       Epsilon = math.sqrt(215/fy)
       print('Epsilon = ',Epsilon)
       
-      return {}
-    return {}
+      return jsonify({"message": message})
+    return jsonify({"message": message})
   if request.method == 'GET':
     print('it was get occidentialy')
-    return {}
+    return 'no message by the get request'
   
 @app.route ('/intersection', methods=['GET','POST'])
 def intersect():

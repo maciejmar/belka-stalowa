@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Results } from '../results'
 import { DataFormService } from '../data-form.service';
-
+import { DataConditionsService } from '../services/data-conditions.service';
+import { DataSupportService } from '../services/data-support.service';
+import { DataUsabilityService } from '../services/data-usability.service';
+import { DataIntersectionService } from '../services/data-intersection.service';
 
 @Component({
   selector: 'app-results',
@@ -17,20 +20,58 @@ export class ResultsComponent implements OnInit {
 
 currentPage: number = 1;
 itemsPerPage: number = 10;
-
+receivedData: string ='';
+receiveDataSupport:string='';
+receiveDataUsability:string='';
+receiveIntersection:string='';
+boolTab:boolean []=[];
 
 labels:string[]=['l_0[m]', 'steelType', 'q [kn/m]', 'V [kN]', 'qk [kN/m]', 'M [m]', 'Wmin [mm**3]', 'Imin [mm**4]', 'Av [m**2]', 'n', 'Ad [m**2]', 'fcdd [kPa]', 'h [mm]','t [mm]', 'Ved [kN]' ];
-  constructor(private dataFromForm: DataFormService) { 
+  constructor(private dataFromForm: DataFormService, private dataConditionsService:DataConditionsService,
+    private dataSupportService:DataSupportService, private dataUsabilityService:DataUsabilityService,
+    private dataIntersectionService:DataIntersectionService) { 
   
   }
   
   totalPages = Math.ceil(this.results.length / this.itemsPerPage);
   ngOnInit(): void {
      this.getAllResults();
-  }
 
+     this.dataConditionsService.dataObservable.subscribe((data) => {
+      this.receivedData = data;
+      console.log("message as receivedData this is from subscribed  ", this.receivedData);
+     })
+
+     this.dataSupportService.dataObservable.subscribe((data) => {
+        this.receiveDataSupport = data;
+        console.log("message as receivedDataSupport this is from subscribed 2 ", this.receiveDataSupport);
+     });
+
+     this.dataUsabilityService.dataObservable.subscribe((data)=>{
+       this.receiveDataUsability = data;
+       console.log("message as receivedDataUsability this is from subscribed 3 ", this.receiveDataUsability);
+     });
+
+     this.dataIntersectionService.dataObservable.subscribe((data)=>{
+      this.receiveIntersection = data;
+      console.log("message as receivedDataIntersection this is from subscribed 4 ", this.receiveIntersection);
+     });
+     
+     if (this.receivedData== "warunek nośności został spełniony") this.boolTab[0]= true ;
+       else this.boolTab[0] = false;
+     if (this.receiveDataSupport == "warunek na docisk na oparciu belki spełniony") this.boolTab[1]= true ;
+       else this.boolTab[1]= false;
+     if(this.receiveDataUsability =="war. stanu graniczego użytkowalności spełniony") this.boolTab[2]= true;
+       else this.boolTab[2]= false;
+     if(this.receiveIntersection= "Ścianka profilu jest odporna na miejscową utratę stateczności") this.boolTab[3]= true;
+       else this.boolTab[3]= false;
+     
+     this.receiveDataSupport
+
+  }
   getAllResults(){
-    this.dataFromForm.getResults().subscribe(data =>this.results = data.reverse());
+    this.dataFromForm.getResults().subscribe(data =>
+      this.results = data.reverse());
   }
 
   // getItemsForCurrentPage(): string {

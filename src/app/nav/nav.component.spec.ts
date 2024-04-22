@@ -86,7 +86,10 @@ describe('NavComponent', () => {
       q: '2',
       qk: '3',
       M: '4',
-      V: '5'
+      V: '5',
+      n: '6',
+      Imin: '7',
+      Wmin: '8'
     });
     component.submitForm();
     expect(dataFormService.saveFormData).toHaveBeenCalledWith(component.steelForm.value);

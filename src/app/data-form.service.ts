@@ -22,9 +22,6 @@ export class DataFormService {
 
 constructor(private http: HttpClient) { }
 
-
-
-
   /*
   getResults():Observable<Results[]>{
     return this.http.get<Results[]>('https://jsonplaceholder.typicode.com/users')//('http://localhost:4000/results')

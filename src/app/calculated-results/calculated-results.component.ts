@@ -3,8 +3,10 @@ import { FormsModule,FormBuilder, FormControl, FormGroup, Validators } from '@an
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DataFormService } from '../data-form.service';
 import { CalculatedResultsService } from '../calculated-results.service'
+import { DataConditionsService } from '../services/data-conditions.service'
 import { Touple } from '../calculated-results';
 import { Results } from '../results'
+
 @Component({
   selector: 'app-calculated-results',
   templateUrl: './calculated-results.component.html',
@@ -18,19 +20,21 @@ export class CalculatedResultsComponent implements OnInit {
   Winim!: Results
   wmin!: string
   imin!:string
+  message=''
 
   constructor(private http: HttpClient, private calculated_results_:CalculatedResultsService
-    , private fromFormService: DataFormService) { }
+    , private fromFormService: DataFormService, private dataConditions: DataConditionsService) { }
   touple={
     "Wmin":0,
     "Imin":0,
-    "qk":0
+    "qk":0,
+    "message":''
   }
   newToupleWminImin = new FormGroup ({
 
       WminNew : new FormControl ('', Validators.required),
       IminNew : new FormControl ('', Validators.required),
-      qk      : new FormControl ('', Validators.required)
+      qk      : new FormControl ('', Validators.required),
   })
 
   ngOnInit(): void {
@@ -42,7 +46,11 @@ export class CalculatedResultsComponent implements OnInit {
   onSubmitTouple(){
     if(this.touple)
       console.log('onSubmitTouple() - ', this.touple)
-      this.calculated_results_.saveDataTouple(this.touple).subscribe()
+      this.calculated_results_.saveDataTouple(this.touple).subscribe((data) => {
+        this.message = data.message;
+        console.log("this.message ++++++++++++  ", this.message);
+        this.dataConditions.updateData(this.message);
+      });
   }
 
     getAllResults():Results{
@@ -50,12 +58,14 @@ export class CalculatedResultsComponent implements OnInit {
       this.fromFormService.getResults().subscribe(data =>
       {
         this.results = data;
+        console.log('results in getallResults() - ----->', this.results)
       }); 
         const len = this.Minim.toString().length;
         this.Minim = this.results[len-1]
         console.log("results is in calculated results =", this.results)
     return this.Minim
   }
+
   extract(): string[]{
    if (this.results) {
       let res = this.results[this.results.length - 1];

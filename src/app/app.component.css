@@ -1,10 +1,11 @@
 .card {
     width:70%;
     height:3%;
+    
 }
 .card-blue{
-    background: rgb(2,0,36);
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(121,52,9,1) 50%, rgba(252,0,255,1) 100%);
+    background: rgb(246, 246, 248);
+    background: linear-gradient(90deg, rgb(6, 2, 83) 0%, rgba(121,52,9,1) 50%, rgb(243, 218, 104) 100%);
     color:rgb(243, 250, 223);
     margin-left:2%;
     margin-right: 5%;
